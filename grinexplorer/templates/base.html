@@ -6,10 +6,25 @@
 	<title>GrinExplorer</title>
 	<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
 	<link rel="stylesheet" href="{% static "css/project.css" %}">
+	<link rel="stylesheet" href="{% static "css/fontawesome-all.min.css" %}">
   </head>
   <body>
 	<div class="container">
-	  <h1><a href="/">GrinExplorer</a></h1>
+	  <div class="row align-items-start">
+		<div class="col">
+		  <h1><a href="/">GrinExplorer</a></h1>
+		</div>
+		<div class="col text-right">
+		  <form method="get" action="/search" style="margin-top:12px;">
+			<div class="input-group">
+			  <input class="form-control" type="search" name="q" placeholder="Search by block hash or height" size="66">
+			  <div class="input-group-btn">
+				<button type="submit" class="btn btn-secondary"><i class="fas fa-search"></i></button>
+			  </div>
+			</div>
+		  </form>
+		</div>
+	  </div>
 
 	  {% block content %}{% endblock content %}
 	</div>
