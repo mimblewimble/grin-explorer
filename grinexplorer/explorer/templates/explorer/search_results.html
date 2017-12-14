@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block content %}
+  <h2>Search Results for "{{ q }}"</h2>
+
+  {% if results %}
+	<table class="table table-bordered table-hover">
+	  <thead class="thead-light">
+		<tr>
+		  <th>Hash</th>
+		  <th>Age</th>
+		  <th>Cumulative Difficulty</th>
+		  <th># kernel</th>
+		  <th># in</th>
+		  <th># out</th>
+		</tr>
+	  </thead>
+	  <tbody>
+		{% for blk in results %}
+		  <tr>
+			<td><a href="/block/{{ blk.hash }}">{{ blk.hash }}</a></td>
+			<td>{{ blk.timestamp | naturaltime}}</td>
+			<td>{{ blk.total_difficulty | intcomma }}</td>
+			<td>{{ blk.kernel_set.all.count }}</td>
+			<td>{{ blk.input_set.all.count }}</td>
+			<td>{{ blk.output_set.all.count }}</td>
+		  </tr>
+		{% endfor %}
+	  </tbody>
+	</table>
+  {% else %}
+	{% if q_isdigit %}
+	  <p>
+		We couldn't find a block at height <strong>{{ q }}</strong>.
+	  </p>
+	{% elif q|length < 6 %}
+	  <p>
+		Your search term <strong>{{ q }}</strong> is too short, please enter at least six characters if searching by hash.
+	  </p>
+	{% else %}
+	  <p>
+		We couldn't find any blocks starting with the hash <strong>{{ q }}</strong>.
+	  </p>
+	{% endif %}
+  {% endif %}
+{% endblock content %}

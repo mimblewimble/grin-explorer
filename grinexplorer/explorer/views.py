@@ -59,4 +59,39 @@ class BlocksByHeight(TemplateView):
         if len(self.blocks) == 1:
             return redirect("block-detail", pk=self.blocks[0].hash, permanent=False)
         else:
-            return super().get(self, request)
+            return super().get(request)
+
+
+class Search(TemplateView):
+    template_name = "explorer/search_results.html"
+    results = None
+    q_isdigit = False
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["q"] = self.q
+        context["q_isdigit"] = self.q_isdigit
+        context["results"] = self.results
+
+        return context
+
+    def get(self, request):
+        self.q = request.GET.get("q", "").strip()
+
+        # search query is valid block height
+        if self.q.isdigit():
+            self.q_isdigit = True
+
+            if Block.objects.filter(height=self.q).count():
+                return redirect("blocks-by-height", height=self.q, permanent=False)
+
+        # require at least 8 characters
+        if len(self.q) >= 6:
+            self.results = Block.objects.filter(hash__startswith=self.q)
+
+            # if only one result, redirect to found block
+            if self.results.count() == 1:
+                return redirect("block-detail", pk=self.results[0].hash, permanent=False)
+
+        return super().get(request)
