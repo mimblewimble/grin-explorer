@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block content %}
+  <h2>Block {{ height }}</h2>
+
+  <p>
+	There was a fork in the blockchain resulting in several competing blocks at this height:
+  </p>
+
+  <table class="table table-bordered table-hover">
+	<thead class="thead-light">
+	  <tr>
+		<th>Hash</th>
+		<th>Age</th>
+		<th>Cumulative Difficulty</th>
+		<th># kernel</th>
+		<th># in</th>
+		<th># out</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  {% for blk in blocks %}
+		<tr>
+		  <td><a href="/block/{{ blk.hash }}">{{ blk.hash }}</a></td>
+		  <td>{{ blk.timestamp | naturaltime}}</td>
+		  <td>{{ blk.total_difficulty | intcomma }}</td>
+		  <td>{{ blk.kernel_set.all.count }}</td>
+		  <td>{{ blk.input_set.all.count }}</td>
+		  <td>{{ blk.output_set.all.count }}</td>
+		</tr>
+	  {% endfor %}
+	</tbody>
+  </table>
+
+{% endblock content %}

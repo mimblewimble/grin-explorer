@@ -1,0 +1,42 @@
+* Grin-Explorer
+
+Grin-Explorer is the first block explorer for the [[http://grin-tech.org][Grin]] 
+blockchain. This is the source code for the instance running at 
+[[https://grinexplorer.net]].
+
+I hope it provides a useful service for anybody interested in grin and to its
+developers.
+
+** Bugs, Feature Requests, etc.
+
+Please report bugs, feature requests or feedback
+[[https://github.com/mimblewimble/grin-explorer/issues/new][here]] or ping
+me (@hendi) on Gitter.
+
+** License
+
+grin-explorer is licensed under the terms of the GNU AGPL 3, see the file 
+[[LICENSE]] for details. Basically it allows you to use and modify this code as 
+long as you make all changes available under the same terms. The easiest way to 
+do this is to fork this repo (publically!) and deploy your instance from
+that repo.p
+
+** How to setup your own instance
+
+*** Requirements
+
+Python >= 3.5 and PostgreSQL >= 9.3 are required.
+
+*** Installation
+
+- Clone this repo
+- ~cd grin-explorer~
+- ~python3 -m venv venv~
+- ~source venv/bin/activate~
+- ~pip install -r requirements~
+- ~cd grinexplorer~
+- ~./manage.py runserver~
+
+*** Import blockchain
+- ~./manage.py import_from_tip http://127.0.0.1:13413~
+

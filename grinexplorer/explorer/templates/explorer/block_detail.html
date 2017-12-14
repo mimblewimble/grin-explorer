@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block content %}
+  <h2>Block {{ blk.height }}</h2>
+  <p>
+	Hash: <code>{{ blk.hash }}</code>
+  </p>
+
+  <table class="table table-bordered table-hover">
+	<tr>
+	  <td>Height</td>
+	  <td>{{ blk.height }}</td>
+	</tr>
+	<tr>
+	  <td>Version</td>
+	  <td>{{ blk.version }}</td>
+	</tr>
+	<tr>
+	  <td>Previous Block</td>
+	  <td>
+		{% if blk.height == 0 %}
+		  <em>(None, this is the Genesis Block)</em>
+		{% else %}
+		  <a href="/block/{{ blk.previous.hash }}" title="{{ blk.previous.hash }}">{{ blk.previous.hash | slice:":8" }}...</a>
+		{% endif %}
+	  </td>
+	</tr>
+	<tr>
+	  <td>Age</td>
+	  <td>{{ blk.timestamp | date:"Y-m-d, H:i:s" }} UTC</td>
+	</tr>
+	<tr>
+	  <td>Block Difficulty</td>
+	  <td>{{ blk.difficulty }}</td>
+	</tr>
+	<tr>
+	  <td>Cumulative Difficulty</td>
+	  <td>{{ blk.total_difficulty }}</td>
+	</tr>
+	<tr>
+	  <td>Block Reward</td>
+	  <td>50</td>
+	</tr>
+	<tr>
+	  <td>Fees</td>
+	  <td>{{ blk.fees }}</td>
+	</tr>
+	<tr>
+	  <td># TX Kernels</td>
+	  <td>{{ blk.kernel_set.all.count }}</td>
+	</tr>
+	<tr>
+	  <td># Inputs</td>
+	  <td>{{ blk.input_set.all.count }}</td>
+	</tr>
+	<tr>
+	  <td># Outputs</td>
+	  <td>{{ blk.output_set.all.count }}</td>
+	</tr>
+  </table>
+
+  <details>
+	<summary>Inputs ({{ blk.input_set.all.count }})</summary>
+
+	<table class="table table-bordered table-hover">
+	  <thead class="thead-light">
+		<tr>
+		  <th>Data</th>
+		</tr>
+	  </thead>
+	  <tbody>
+		{% for input in blk.input_set.all %}
+		  <tr>
+			<td style="font-family:monospace;">{{ input.data }}</td>
+		  </tr>
+		{% endfor %}
+	  </tbody>
+	</table>
+  </details>
+
+  <br>
+
+  <details>
+	<summary>Outputs ({{ blk.output_set.all.count }})</summary>
+
+	<table class="table table-bordered table-hover">
+	  <thead class="thead-light">
+		<tr>
+		  <th>Output Type</th>
+		  <th>Spent</th>
+		</tr>
+	  </thead>
+	  <tbody>
+		{% for output in blk.output_set.all %}
+		  <tr>
+			<td>{{ output.output_type }}</td>
+			<td>{{ output.spent }}</td>
+		  </tr>
+		{% endfor %}
+	  </tbody>
+	</table>
+  </details>
+
+  <br>
+
+  <details>
+	<summary>Kernels ({{ blk.kernel_set.all.count }})</summary>
+
+	<table class="table table-bordered table-hover">
+	  <thead class="thead-light">
+		<tr>
+		  <th>Features</th>
+		  <th>Fee</th>
+		</tr>
+	  </thead>
+	  <tbody>
+		{% for kernel in blk.kernel_set.all %}
+		  <tr>
+			<td>{{ kernel.features }}</td>
+			<td>{{ kernel.fee }}</td>
+		  </tr>
+		{% endfor %}
+	  </tbody>
+	</table>
+  </details>
+
+{% endblock content %}
