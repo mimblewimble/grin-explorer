@@ -53,7 +53,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('output_type', models.TextField(choices=[('Transaction', 'Transaction'), ('Coinbase', 'Coinbase')])),
                 ('commit', models.CharField(max_length=66)),
-                ('switch_commit_hash', models.CharField(max_length=40)),
+                ('switch_commit_hash', models.CharField(max_length=64)),
                 ('spent', models.BooleanField()),
                 ('proof', models.CharField(max_length=1000)),
                 ('proof_hash', models.CharField(max_length=64)),
