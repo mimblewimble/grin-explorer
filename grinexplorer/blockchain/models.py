@@ -69,13 +69,13 @@ class Output(models.Model):
 
     switch_commit_hash = models.CharField(max_length=40)
 
-    height = models.IntegerField()
-
-    lock_height = models.IntegerField()
-
     spent = models.BooleanField()
+    
+    proof = models.CharField()
 
     proof_hash = models.CharField(max_length=64)
+    
+    merkle_proof = models.CharField()
 
 
 class Kernel(models.Model):
