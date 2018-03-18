@@ -23,18 +23,14 @@ class Block(models.Model):
     )
 
     timestamp = models.DateTimeField()
+    
+    range_proof_root = models.CharField(max_length=64)
 
     utxo_root = models.CharField(max_length=64)
-    
-    output_root = models.CharField(max_length=64)
-
-    range_proof_root = models.CharField(max_length=64)
 
     kernel_root = models.CharField(max_length=64)
 
     nonce = models.TextField()
-
-    difficulty = models.IntegerField()
 
     total_difficulty = models.IntegerField()
 
