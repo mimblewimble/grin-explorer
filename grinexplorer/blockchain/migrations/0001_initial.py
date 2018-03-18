@@ -55,7 +55,7 @@ class Migration(migrations.Migration):
                 ('commit', models.CharField(max_length=66)),
                 ('switch_commit_hash', models.CharField(max_length=64)),
                 ('spent', models.BooleanField()),
-                ('proof', models.CharField(max_length=1000)),
+                ('proof', models.CharField(null=True, max_length=1000)),
                 ('proof_hash', models.CharField(max_length=64)),
                 ('merkle_proof', models.CharField(max_length=1000)),
                 ('block', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='blockchain.Block')),
