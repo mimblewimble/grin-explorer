@@ -25,6 +25,8 @@ class Block(models.Model):
     timestamp = models.DateTimeField()
 
     utxo_root = models.CharField(max_length=64)
+    
+    output_root = models.CharField(max_length=64)
 
     range_proof_root = models.CharField(max_length=64)
 
