@@ -67,7 +67,7 @@ class Output(models.Model):
 
     commit = models.CharField(max_length=66)
 
-    switch_commit_hash = models.CharField(max_length=40)
+    switch_commit_hash = models.CharField(max_length=64)
 
     spent = models.BooleanField()
     
