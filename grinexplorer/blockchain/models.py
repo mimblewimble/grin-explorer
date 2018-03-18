@@ -24,9 +24,9 @@ class Block(models.Model):
 
     timestamp = models.DateTimeField()
     
+    output_root = models.CharField(max_length=64)
+    
     range_proof_root = models.CharField(max_length=64)
-
-    utxo_root = models.CharField(max_length=64)
 
     kernel_root = models.CharField(max_length=64)
 
