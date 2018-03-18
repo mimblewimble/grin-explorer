@@ -71,11 +71,11 @@ class Output(models.Model):
 
     spent = models.BooleanField()
     
-    proof = models.CharField()
+    proof = models.CharField(max_length=1000)
 
     proof_hash = models.CharField(max_length=64)
     
-    merkle_proof = models.CharField()
+    merkle_proof = models.CharField(max_length=1000)
 
 
 class Kernel(models.Model):
