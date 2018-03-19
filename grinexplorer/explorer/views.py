@@ -17,7 +17,7 @@ class BlockList(ListView):
 
         context["highest_block"] = Block.objects.order_by("height").last()
         context["latest_block"] = Block.objects.order_by("timestamp").last()
-        context["total_emission"] = Output.objects.filter(output_type="Coinbase").count() * 50
+        context["total_emission"] = Output.objects.filter(output_type="Coinbase").count() * 60
 
         context["competing_chains"] = Block.objects \
                                            .filter(height__gte=context["highest_block"].height - 100) \
