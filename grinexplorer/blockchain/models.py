@@ -23,9 +23,9 @@ class Block(models.Model):
     )
 
     timestamp = models.DateTimeField()
-    
+
     output_root = models.CharField(max_length=64)
-    
+
     range_proof_root = models.CharField(max_length=64)
 
     kernel_root = models.CharField(max_length=64)
@@ -70,12 +70,12 @@ class Output(models.Model):
     switch_commit_hash = models.CharField(max_length=64)
 
     spent = models.BooleanField()
-    
-    proof = models.CharField(null=True, max_length=2000)
+
+    proof = models.TextField(null=True)
 
     proof_hash = models.CharField(max_length=64)
-    
-    merkle_proof = models.CharField(null=True, max_length=2000)
+
+    merkle_proof = models.TextField(null=True)
 
 
 class Kernel(models.Model):
