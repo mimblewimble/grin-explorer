@@ -29,7 +29,7 @@ class Command(BaseCommand):
 
         data = requests.get(self.API_BASE + "chain").json()
         height = data["height"]
-        tip = data["hash"]
+        tip = data["last_block_pushed"]
         self.stdout.write("height={}, tip={}\n\n".format(height, tip))
 
         hash = tip
