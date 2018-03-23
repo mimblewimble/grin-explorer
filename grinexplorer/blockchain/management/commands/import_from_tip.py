@@ -29,7 +29,7 @@ class Command(BaseCommand):
 
         data = requests.get(self.API_BASE + "chain").json()
         height = data["height"]
-        tip = data["hash"]
+        tip = data["last_block_pushed"]
         self.stdout.write("height={}, tip={}\n\n".format(height, tip))
 
         hash = tip
@@ -50,13 +50,17 @@ class Command(BaseCommand):
 
     def fetch_and_store_block(self, hash, parent_hash):
         block_data = requests.get(self.API_BASE + "blocks/" + hash).json()
-
+        block_data["header"]["difficulty"] = 0
         try:
             block = Block.objects.get(hash=hash)
             self.stdout.write("Block {} already exists @ {}".format(block.hash, block.height))
 
             if parent_hash is not None:
                 parent = Block.objects.get(hash=parent_hash)
+                parent_total_difficulty = parent["total_difficulty"]
+                difficulty = parent_total_difficulty - block_data["header"]["total_difficulty"]
+                parent.difficulty = difficulty
+                parent.save(update_fields=["difficulty"])
 
                 if parent.previous is None:
                     assert parent.height == block.height + 1
@@ -77,7 +81,6 @@ class Command(BaseCommand):
             previous=None,
             **block_data["header"],
         )
-
         for input_data in block_data["inputs"]:
             Input.objects.create(
                 block=block,
@@ -97,7 +100,6 @@ class Command(BaseCommand):
             )
 
         self.stdout.write("Stored block {} @ {}".format(block.hash, block.height))
-
         # set parent's `previous` PK to this Block
         if parent_hash is not None:
             parent = Block.objects.get(hash=parent_hash)
