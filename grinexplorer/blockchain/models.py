@@ -24,7 +24,7 @@ class Block(models.Model):
 
     timestamp = models.DateTimeField()
 
-    utxo_root = models.CharField(max_length=64)
+    output_root = models.CharField(max_length=64)
 
     range_proof_root = models.CharField(max_length=64)
 
@@ -69,15 +69,15 @@ class Output(models.Model):
 
     commit = models.CharField(max_length=66)
 
-    switch_commit_hash = models.CharField(max_length=40)
-
-    height = models.IntegerField()
-
-    lock_height = models.IntegerField()
+    switch_commit_hash = models.CharField(max_length=64)
 
     spent = models.BooleanField()
 
+    proof = models.TextField(null=True)
+
     proof_hash = models.CharField(max_length=64)
+
+    merkle_proof = models.TextField(null=True)
 
 
 class Kernel(models.Model):
