@@ -32,16 +32,20 @@
 	  <td>{{ blk.timestamp | date:"Y-m-d, H:i:s" }} UTC</td>
 	</tr>
 	<tr>
-	  <td>Block Difficulty</td>
-	  <td>{{ blk.difficulty }}</td>
+	  <td>Actual Block Difficulty</td>
+	  <td>{{ blk.difficulty | intcomma | floatformat:-2 }}</td>
 	</tr>
 	<tr>
-	  <td>Cumulative Difficulty</td>
-	  <td>{{ blk.total_difficulty }}</td>
+	  <td>Expected Block Difficulty</td>
+	  <td>{{ blk.expected_difficulty | intcomma | floatformat:-2 }}</td>
+	</tr>
+	<tr>
+	  <td>Expected Total Difficulty</td>
+	  <td>{{ blk.total_difficulty | intcomma }}</td>
 	</tr>
 	<tr>
 	  <td>Block Reward</td>
-	  <td>60</td>
+	  <td>{{ blk.reward }}</td>
 	</tr>
 	<tr>
 	  <td>Fees</td>

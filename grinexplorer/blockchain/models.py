@@ -34,7 +34,23 @@ class Block(models.Model):
 
     difficulty = models.IntegerField()
 
+    # sum of the target difficulties, not the sum of the actual block difficulties
     total_difficulty = models.IntegerField()
+
+    @property
+    def difficulty(self):
+        return 0xffffffffffffffff / int(self.hash[:16], 16)
+
+    @property
+    def expected_difficulty(self):
+        if self.previous is None:
+            return None
+
+        return self.total_difficulty - self.previous.total_difficulty
+
+    @property
+    def reward(self):
+        return 60
 
     @property
     def fees(self):

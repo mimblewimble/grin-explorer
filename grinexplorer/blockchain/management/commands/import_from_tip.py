@@ -50,17 +50,13 @@ class Command(BaseCommand):
 
     def fetch_and_store_block(self, hash, parent_hash):
         block_data = requests.get(self.API_BASE + "blocks/" + hash).json()
-        block_data["header"]["difficulty"] = 0
+
         try:
             block = Block.objects.get(hash=hash)
             self.stdout.write("Block {} already exists @ {}".format(block.hash, block.height))
 
             if parent_hash is not None:
                 parent = Block.objects.get(hash=parent_hash)
-                parent_total_difficulty = parent["total_difficulty"]
-                difficulty = parent_total_difficulty - block_data["header"]["total_difficulty"]
-                parent.difficulty = difficulty
-                parent.save(update_fields=["difficulty"])
 
                 if parent.previous is None:
                     assert parent.height == block.height + 1

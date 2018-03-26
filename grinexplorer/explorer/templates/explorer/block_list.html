@@ -31,10 +31,10 @@
 	<div class="col-sm-6 col-md-3">
 	  <div class="card">
 		<div class="card-header">
-		  Difficulty
+		  Latest Block Difficulty
 		</div>
 		<div class="card-body">
-		  <h4 class="card-title">{{ latest_block.difficulty | intcomma }}</h4>
+		  <h4 class="card-title">{{ latest_block.difficulty | intcomma | floatformat:-2 }}</h4>
 		</div>
 	  </div>
 	</div>
