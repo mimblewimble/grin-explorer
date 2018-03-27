@@ -27,3 +27,7 @@ details summary {
 	line-height:40px;
 	padding-left:8px;
 }
+
+td.numeric {
+	text-align:right;
+}

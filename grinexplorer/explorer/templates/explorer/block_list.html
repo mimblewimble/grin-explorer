@@ -70,6 +70,7 @@
 		  <th>Height</th>
 		  <th>Hash</th>
 		  <th>Age</th>
+		  <th>Difficulty</th>
 		  <th># kernel</th>
 		  <th># in</th>
 		  <th># out</th>
@@ -81,9 +82,10 @@
 			<td><a href="/block/{{ blk.height }}">{{ blk.height }}</a></td>
 			<td><a href="/block/{{ blk.hash }}">{{ blk.hash }}</a></td>
 			<td>{{ blk.timestamp | naturaltime}}</td>
-			<td>{{ blk.kernel_set.all.count }}</td>
-			<td>{{ blk.input_set.all.count }}</td>
-			<td>{{ blk.output_set.all.count }}</td>
+			<td class="numeric">{{ blk.difficulty | floatformat:-2 | intcomma }}</td>
+			<td class="numeric">{{ blk.kernel_set.all.count }}</td>
+			<td class="numeric">{{ blk.input_set.all.count }}</td>
+			<td class="numeric">{{ blk.output_set.all.count }}</td>
 		  </tr>
 		{% endfor %}
 	  </tbody>
