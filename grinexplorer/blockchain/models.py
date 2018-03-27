@@ -39,7 +39,7 @@ class Block(models.Model):
 
     @property
     def difficulty(self):
-        return 0xffffffffffffffff / int(self.hash[:16], 16)
+        return 0xffffffffffffffff // int(self.hash[:16], 16)
 
     @property
     def expected_difficulty(self):
