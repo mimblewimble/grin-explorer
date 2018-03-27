@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load humanize %}
+{% load grin %}
 
 {% block content %}
   <br>
@@ -45,7 +46,7 @@
 		  Emission
 		</div>
 		<div class="card-body">
-		  <h4 class="card-title">{{ total_emission | intcomma }}</h4>
+		  <h4 class="card-title">{{ total_emission | grin }}</h4>
 		</div>
 	  </div>
 	</div>

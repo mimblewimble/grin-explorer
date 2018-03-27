@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load humanize %}
+{% load grin %}
 
 {% block content %}
   <h2>Block {{ blk.height }}</h2>
@@ -45,11 +46,11 @@
 	</tr>
 	<tr>
 	  <td>Block Reward</td>
-	  <td>{{ blk.reward }}</td>
+	  <td>{{ blk.reward | grin }}</td>
 	</tr>
 	<tr>
 	  <td>Fees</td>
-	  <td>{{ blk.fees }}</td>
+	  <td>{{ blk.fees | nanogrin }}</td>
 	</tr>
 	<tr>
 	  <td># TX Kernels</td>
@@ -123,7 +124,7 @@
 		{% for kernel in blk.kernel_set.all %}
 		  <tr>
 			<td>{{ kernel.features }}</td>
-			<td>{{ kernel.fee }}</td>
+			<td>{{ kernel.fee | nanogrin }}</td>
 		  </tr>
 		{% endfor %}
 	  </tbody>
