@@ -33,11 +33,11 @@
 	</tr>
 	<tr>
 	  <td>Actual Block Difficulty</td>
-	  <td>{{ blk.difficulty | intcomma | floatformat:-2 }}</td>
+	  <td>{{ blk.difficulty | floatformat:-2 | intcomma }}</td>
 	</tr>
 	<tr>
 	  <td>Expected Block Difficulty</td>
-	  <td>{{ blk.expected_difficulty | intcomma | floatformat:-2 }}</td>
+	  <td>{{ blk.expected_difficulty | floatformat:-2 | intcomma }}</td>
 	</tr>
 	<tr>
 	  <td>Expected Total Difficulty</td>

@@ -34,7 +34,7 @@
 		  Latest Block Difficulty
 		</div>
 		<div class="card-body">
-		  <h4 class="card-title">{{ latest_block.difficulty | intcomma | floatformat:-2 }}</h4>
+		  <h4 class="card-title">{{ latest_block.difficulty | floatformat:-2 | intcomma }}</h4>
 		</div>
 	  </div>
 	</div>
