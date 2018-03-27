@@ -30,12 +30,14 @@
 	</div>
 
 	<div class="col-sm-6 col-md-3">
-	  <div class="card">
+	  <div class="card" title="Actual vs. Expected Block Difficulty">
 		<div class="card-header">
 		  Latest Block Difficulty
 		</div>
 		<div class="card-body">
-		  <h4 class="card-title">{{ latest_block.difficulty | floatformat:-2 | intcomma }}</h4>
+		  <h4 class="card-title">
+			{{ latest_block.difficulty | intcomma }} / {{ latest_block.expected_difficulty | intcomma }}
+		  </h4>
 		</div>
 	  </div>
 	</div>
@@ -70,7 +72,7 @@
 		  <th>Height</th>
 		  <th>Hash</th>
 		  <th>Age</th>
-		  <th>Difficulty</th>
+		  <th title="Actual vs. Expected Block Difficulty">Difficulty</th>
 		  <th># kernel</th>
 		  <th># in</th>
 		  <th># out</th>
@@ -82,7 +84,9 @@
 			<td><a href="/block/{{ blk.height }}">{{ blk.height }}</a></td>
 			<td><a href="/block/{{ blk.hash }}">{{ blk.hash }}</a></td>
 			<td>{{ blk.timestamp | naturaltime}}</td>
-			<td class="numeric">{{ blk.difficulty | floatformat:-2 | intcomma }}</td>
+			<td class="numeric" title="Actual vs. Expected Block Difficulty">
+			  {{ blk.difficulty | intcomma }} / {{ blk.expected_difficulty | intcomma }}
+			</td>
 			<td class="numeric">{{ blk.kernel_set.all.count }}</td>
 			<td class="numeric">{{ blk.input_set.all.count }}</td>
 			<td class="numeric">{{ blk.output_set.all.count }}</td>
