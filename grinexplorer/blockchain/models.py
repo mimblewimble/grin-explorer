@@ -37,6 +37,8 @@ class Block(models.Model):
     # sum of the target difficulties, not the sum of the actual block difficulties
     total_difficulty = models.IntegerField()
 
+    total_kernel_offset = models.CharField(max_length=64)
+
     @property
     def difficulty(self):
         return 0xffffffffffffffff // int(self.hash[:16], 16)

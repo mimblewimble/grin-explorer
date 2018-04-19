@@ -73,6 +73,7 @@ class Command(BaseCommand):
         # we can't set the `previous` PK now because it doesn't exist yet. We'll
         # set it in the next call of this function, when the previous Block is saved
         previous = block_data["header"].pop("previous")
+
         block = Block.objects.create(
             previous=None,
             **block_data["header"],
