@@ -46,7 +46,7 @@ class Block(models.Model):
         return 0xffffffffffffffff // int(self.hash[:16], 16)
 
     @property
-    def expected_difficulty(self):
+    def target_difficulty(self):
         if self.previous is None:
             return None
 
