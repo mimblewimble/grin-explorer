@@ -32,6 +32,8 @@ class Block(models.Model):
 
     nonce = models.TextField()
 
+    cuckoo_size = models.IntegerField()
+
     difficulty = models.IntegerField()
 
     # sum of the target difficulties, not the sum of the actual block difficulties
