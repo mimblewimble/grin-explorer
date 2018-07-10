@@ -36,7 +36,7 @@
 		</div>
 		<div class="card-body">
 		  <h4 class="card-title">
-			{{ latest_block.difficulty | intcomma }} / {{ latest_block.expected_difficulty | intcomma }}
+			{{ latest_block.difficulty | intcomma }} / {{ latest_block.target_difficulty | intcomma }}
 		  </h4>
 		</div>
 	  </div>
@@ -72,7 +72,7 @@
 		  <th>Height</th>
 		  <th>Hash</th>
 		  <th>Age</th>
-		  <th title="Actual vs. Expected Block Difficulty">Difficulty</th>
+		  <th title="Actual vs. Target Difficulty">Difficulty</th>
 		  <th># kernel</th>
 		  <th># in</th>
 		  <th># out</th>
