@@ -85,7 +85,7 @@
 			<td><a href="/block/{{ blk.hash }}">{{ blk.hash }}</a></td>
 			<td>{{ blk.timestamp | naturaltime}}</td>
 			<td class="numeric" title="Actual vs. Expected Block Difficulty">
-			  {{ blk.difficulty | intcomma }} / {{ blk.expected_difficulty | intcomma }}
+			  {{ blk.difficulty | intcomma }} / {{ blk.target_difficulty | intcomma }}
 			</td>
 			<td class="numeric">{{ blk.kernel_set.all.count }}</td>
 			<td class="numeric">{{ blk.input_set.all.count }}</td>
