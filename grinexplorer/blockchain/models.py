@@ -32,6 +32,8 @@ class Block(models.Model):
 
     nonce = models.TextField()
 
+    cuckoo_size = models.IntegerField()
+
     difficulty = models.IntegerField()
 
     # sum of the target difficulties, not the sum of the actual block difficulties
@@ -41,10 +43,10 @@ class Block(models.Model):
 
     @property
     def difficulty(self):
-        return 0xffffffffffffffff // int(self.hash[:16], 16)
+        return 0xffffffffffffffff // int(self.hash[:16], 16) * (self.cuckoo_size-1)*2**(self.cuckoo_size-30)
 
     @property
-    def expected_difficulty(self):
+    def target_difficulty(self):
         if self.previous is None:
             return None
 

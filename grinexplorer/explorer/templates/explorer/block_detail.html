@@ -33,15 +33,19 @@
 	  <td>{{ blk.timestamp | date:"Y-m-d, H:i:s" }} UTC</td>
 	</tr>
 	<tr>
-	  <td>Actual Block Difficulty</td>
+	  <td>Cuckoo Size</td>
+	  <td>{{ blk.cuckoo_size }}</td>
+	</tr>
+	<tr>
+	  <td>Difficulty</td>
 	  <td>{{ blk.difficulty | floatformat:-2 | intcomma }}</td>
 	</tr>
 	<tr>
-	  <td>Expected Block Difficulty</td>
-	  <td>{{ blk.expected_difficulty | floatformat:-2 | intcomma }}</td>
+	  <td>Target Difficulty</td>
+	  <td>{{ blk.target_difficulty | floatformat:-2 | intcomma }}</td>
 	</tr>
 	<tr>
-	  <td>Expected Total Difficulty</td>
+	  <td>Total Difficulty</td>
 	  <td>{{ blk.total_difficulty | intcomma }}</td>
 	</tr>
 	<tr>
