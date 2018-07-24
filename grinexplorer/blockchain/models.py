@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.postgres.fields import ArrayField
 
 class Block(models.Model):
     hash = models.CharField(
@@ -33,6 +33,8 @@ class Block(models.Model):
     nonce = models.TextField()
 
     cuckoo_size = models.IntegerField()
+
+    cuckoo_solution = ArrayField(models.IntegerField())
 
     difficulty = models.IntegerField()
 

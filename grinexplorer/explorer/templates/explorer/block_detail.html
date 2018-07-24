@@ -33,8 +33,13 @@
 	  <td>{{ blk.timestamp | date:"Y-m-d, H:i:s" }} UTC</td>
 	</tr>
 	<tr>
-	  <td>Cuckoo Size</td>
-	  <td>{{ blk.cuckoo_size }}</td>
+	  <td>Cuckoo Solution</td>
+	  <td>
+	    <details>
+	      <summary>Size: {{ blk.cuckoo_size }}</summary>
+	      {{ blk.cuckoo_solution }}
+	    </details>
+	  </td>
 	</tr>
 	<tr>
 	  <td>Difficulty</td>
@@ -78,7 +83,7 @@
 	</tr>
   </table>
 
-  <details>
+  <details class="black">
 	<summary>Inputs ({{ blk.input_set.all.count }})</summary>
 
 	<table class="table table-bordered table-hover">
@@ -99,7 +104,7 @@
 
   <br>
 
-  <details>
+  <details class="black">
 	<summary>Outputs ({{ blk.output_set.all.count }})</summary>
 
 	<table class="table table-bordered table-hover">
@@ -122,7 +127,7 @@
 
   <br>
 
-  <details>
+  <details class="black">
 	<summary>Kernels ({{ blk.kernel_set.all.count }})</summary>
 
 	<table class="table table-bordered table-hover">
