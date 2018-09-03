@@ -97,6 +97,10 @@ class Output(models.Model):
 
     proof_hash = models.CharField(max_length=64)
 
+    block_height = models.IntegerField(
+        db_index=True,
+    )
+
     merkle_proof = models.TextField(null=True)
 
 
