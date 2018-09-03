@@ -73,23 +73,23 @@
 		  <th>Hash</th>
 		  <th>Age</th>
 		  <th title="Actual vs. Target Difficulty">Difficulty</th>
-		  <th># kernel</th>
-		  <th># in</th>
-		  <th># out</th>
+		  <th># Kernels</th>
+		  <th># Inputs</th>
+		  <th># Outputs</th>
 		</tr>
 	  </thead>
 	  <tbody>
 		{% for blk in block_list %}
 		  <tr>
-			<td><a href="/block/{{ blk.height }}">{{ blk.height }}</a></td>
-			<td><a href="/block/{{ blk.hash }}">{{ blk.hash }}</a></td>
+			<td><a href="/block/{{ blk.height }}" style="color:dimgrey">{{ blk.height }}</a></td>
+			<td><a href="/block/{{ blk.hash }}" style="color:dimgrey"><font face=monospace>{{ blk.hash }}</font></a></td>
 			<td>{{ blk.timestamp | naturaltime}}</td>
 			<td class="numeric" title="Actual vs. Expected Block Difficulty">
 			  {{ blk.difficulty | intcomma }} / {{ blk.target_difficulty | intcomma }}
 			</td>
-			<td class="numeric">{{ blk.kernel_set.all.count }}</td>
-			<td class="numeric">{{ blk.input_set.all.count }}</td>
-			<td class="numeric">{{ blk.output_set.all.count }}</td>
+			<td class="numeric" align="left">{{ blk.kernel_set.all.count }}</td>
+			<td class="numeric" align="left">{{ blk.input_set.all.count }}</td>
+			<td class="numeric" align="left">{{ blk.output_set.all.count }}</td>
 		  </tr>
 		{% endfor %}
 	  </tbody>
