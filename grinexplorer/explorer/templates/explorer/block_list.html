@@ -65,7 +65,34 @@
   {% endif %}
 
   {% if block_list %}
-	<h2>Latest Blocks</h2>
+	<div class="row align-items-start">
+		<div class="col">
+			<h4>Latest Blocks</h4>
+		</div>
+		<div class="col-sm-6 col-md-3" align="center">
+			{% if is_paginated %}
+			<ul class="pagination justify-content-center">
+				{% if page_obj.has_previous %}
+				<li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+				{% else %}
+				<li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
+				{% endif %}
+				<li class="page-item disabled">
+					<a class="page-link" href="#">{{ page_obj.number }} / {{ paginator.num_pages }}</a>
+				</li>
+				{% if page_obj.has_next %}
+				<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+				{% else %}
+				<li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
+				{% endif %}
+			</ul>
+			{% endif %}
+
+			{% else %}
+			Sorry, there was an error fetching the list of blocks. Please try again later.
+			{% endif %}
+		</div>
+	</div>
 
 	<table class="table table-bordered table-hover">
 	  <thead class="thead-light">
@@ -82,8 +109,8 @@
 	  <tbody>
 		{% for blk in block_list %}
 		  <tr>
-			<td><a href="/block/{{ blk.height }}" style="color:dimgrey">{{ blk.height }}</a></td>
-			<td><a href="/block/{{ blk.hash }}" style="color:dimgrey"><font face=monospace>{{ blk.hash }}</font></a></td>
+			<td><a href="/block/{{ blk.height }}" style="color:royalblue">{{ blk.height }}</a></td>
+			<td><a href="/block/{{ blk.hash }}" style="color:royalblue"><font face=monospace>{{ blk.hash }}</font></a></td>
 			<td>{{ blk.timestamp | shortnaturaltime }}</td>
 			<td class="numeric" title="Actual vs. Expected Block Difficulty">
 			  {{ blk.difficulty | intcomma }} / {{ blk.target_difficulty | intcomma }}
@@ -96,25 +123,4 @@
 	  </tbody>
 	</table>
 
-	{% if is_paginated %}
-	  <ul class="pagination justify-content-center">
-		{% if page_obj.has_previous %}
-		  <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo; newer blocks</a></li>
-		{% else %}
-		  <li class="page-item disabled"><a class="page-link" href="#">&laquo; newer blocks</a></li>
-		{% endif %}
-		<li class="page-item disabled">
-		  <a class="page-link" href="#">page {{ page_obj.number }} / {{ paginator.num_pages }}</a>
-		</li>
-		{% if page_obj.has_next %}
-		  <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">older blocks &raquo;</a></li>
-		{% else %}
-		  <li class="page-item disabled"><a class="page-link" href="#">older blocks &raquo;</a></li>
-		{% endif %}
-	  </ul>
-	{% endif %}
-
-  {% else %}
-	Sorry, there was an error fetching the list of blocks. Please try again later.
-  {% endif %}
 {% endblock content %}

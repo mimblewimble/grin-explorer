@@ -14,17 +14,13 @@
   <body>
 	<div class="container">
 	  <div class="row align-items-start">
-		<div class="col">
+		<div class="col" style="margin-top:12px;">
 		  <h1><a href="/">GrinExplorer</a></h1>
 		</div>
 		<div class="col text-right">
 		  <form class="search" method="get" action="/search" style="margin-top:12px;">
-			<div class="input-group">
-			  <input class="form-control" type="search" name="q" placeholder="Search by block hash or height" style="text-align: center;" size="66">
-			  <div class="input-group-btn">
-				<button type="submit" class="btn btn-secondary"><i class="fa fa-search"></i></button>
-			  </div>
-			</div>
+			  <input class="form-control" type="text" name="q" placeholder="Search by block hash or height" style="text-align: center;" size="66">
+			  <button type="submit"><i class="fa fa-search"></i></button>
 		  </form>
 		</div>
 	  </div>
@@ -32,8 +28,11 @@
 	  {% block content %}{% endblock content %}
 	</div>
 
-	<!--<footer>-->
-	  <!--<a href="https://grinexplorer.net/">GrinExplorer.net</a> is powered by <a href="https://github.com/mimblewimble/grin-explorer">grin-explorer</a> released under the GNU AGPL.-->
-	<!--</footer>-->
+	<br/>
+	<br/>
+
+	<footer>
+	  <a href="https://grinexplorer.net/">GrinExplorer.net</a> is powered by <a href="https://github.com/mimblewimble/grin-explorer">grin-explorer</a> released under the GNU AGPL.
+	</footer>
   </body>
 </html>

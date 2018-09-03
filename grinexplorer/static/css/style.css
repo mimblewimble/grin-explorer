@@ -50,21 +50,40 @@ form.search input[type=text] {
   font-size: 13px;
   border: 1px solid grey;
   float: left;
-  width: 80%;
+  width: 85%;
+  height: 40px;
+  border-right: none; /* Prevent double borders */
   background: #f1f1f1;
 }
 
 /* Style the submit button */
 form.search button {
   float: left;
-  width: 150%;
+  width: 15%;
+  border-radius: 4px;
+  height: 40px;
   padding: 12px;
   background: #2196F3;
   color: white;
   font-size: 13px;
-  border: 1px solid grey;
+  border: 0px solid grey;
   border-left: none; /* Prevent double borders */
   cursor: pointer;
+}
+
+form.search button:hover {
+  background: #0b7dda;
+}
+
+/* Clear floats */
+form.search::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+li.page-item {
+  min-width: 6em;
 }
 
 .header_info {
