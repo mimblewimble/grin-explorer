@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 
+
 class Block(models.Model):
     hash = models.CharField(
         max_length=64,
@@ -97,9 +98,7 @@ class Output(models.Model):
 
     proof_hash = models.CharField(max_length=64)
 
-    block_height = models.IntegerField(
-        db_index=True,
-    )
+    block_height = models.IntegerField(null=True)
 
     merkle_proof = models.TextField(null=True)
 
