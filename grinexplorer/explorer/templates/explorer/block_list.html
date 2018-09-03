@@ -2,6 +2,7 @@
 
 {% load humanize %}
 {% load grin %}
+{% load shortnaturaltime %}
 
 {% block content %}
   <br>
@@ -24,7 +25,7 @@
 		  Latest Block
 		</div>
 		<div class="card-body">
-		  <h4 class="card-title">{{ latest_block.timestamp | naturaltime }}</h4>
+		  <h4 class="card-title">{{ latest_block.timestamp | shortnaturaltime }}</h4>
 		</div>
 	  </div>
 	</div>
@@ -83,7 +84,7 @@
 		  <tr>
 			<td><a href="/block/{{ blk.height }}" style="color:dimgrey">{{ blk.height }}</a></td>
 			<td><a href="/block/{{ blk.hash }}" style="color:dimgrey"><font face=monospace>{{ blk.hash }}</font></a></td>
-			<td>{{ blk.timestamp | naturaltime}}</td>
+			<td>{{ blk.timestamp | shortnaturaltime }}</td>
 			<td class="numeric" title="Actual vs. Expected Block Difficulty">
 			  {{ blk.difficulty | intcomma }} / {{ blk.target_difficulty | intcomma }}
 			</td>
