@@ -1,14 +1,13 @@
 from django import template
 from django.utils.timezone import utc
-
-import time
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta
 
 register = template.Library()
 
+
 def _now():
     return datetime.utcnow().replace(tzinfo=utc)
-    # return datetime.now()
+
 
 def abs_timedelta(delta):
     """Returns an "absolute" value for a timedelta, always representing a
@@ -17,6 +16,7 @@ def abs_timedelta(delta):
         now = _now()
         return now - (now + delta)
     return delta
+
 
 def date_and_delta(value):
     """Turn a value into a date and a timedelta which represents how long ago
@@ -34,13 +34,13 @@ def date_and_delta(value):
             delta = timedelta(seconds=value)
             date = now - delta
         except (ValueError, TypeError):
-            return (None, value)
+            return None, value
     return date, abs_timedelta(delta)
+
 
 def shortnaturaldelta(value):
     """Given a timedelta or a number of seconds, return a natural
     representation of the amount of time elapsed."""
-    now = _now()
     date, delta = date_and_delta(value)
     if date is None:
         return value
@@ -49,7 +49,6 @@ def shortnaturaldelta(value):
     days = abs(delta.days)
     years = days // 365
     days = days % 365
-    months = int(days // 30.5)
 
     if not years and days < 1:
         if seconds <= 1:
@@ -65,18 +64,19 @@ def shortnaturaldelta(value):
     else:
         return "%dy %dd %dh" % (years, days, seconds % 86400 // 3600)
 
+
 @register.filter
 def shortnaturaltime(value):
     """Given a datetime or a number of seconds, return a natural representation
     of that time in a resolution that makes sense.  This is more or less
     compatible with Django's ``naturaltime`` filter."""
-    now = _now()
+    # now = _now()
     date, delta = date_and_delta(value)
     if date is None:
         return value
     # determine tense by value only if datetime/timedelta were passed
-    if isinstance(value, (datetime, timedelta)):
-        future = date > now
+    # if isinstance(value, (datetime, timedelta)):
+    #     future = date > now
 
     delta = shortnaturaldelta(delta)
 

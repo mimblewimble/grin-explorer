@@ -1,3 +1,5 @@
+{% load static%}
+
 html {
   font-size: 13px;
 }
@@ -86,6 +88,25 @@ li.page-item {
   min-width: 6em;
 }
 
+.iconLogo{
+   background: url("{% static "/images/icons/logo_80x80.png" %}") no-repeat;
+   width: 45px;
+   height: 45px;
+   border: none;
+
+   display:inline-block;
+}
+
+.block_detail_header img {
+  background: url("{% static "images/icons/cube_32x32.png" %}") no-repeat;
+  float: left;
+  width: 20px;
+  height: 20px;
+  border: 5px;
+
+  display:inline-block;
+}
+
 .header_info {
   align-items: center;
   height: 100%;
@@ -127,6 +148,14 @@ li.page-item {
 .header h1 {
   line-height: 100%;
   font-size: 1.5rem;
+  font-weight: normal;
+  margin: 0;
+  display: inline;
+}
+
+.header h4 {
+  line-height: 100%;
+  font-size: 1.1rem;
   font-weight: normal;
   margin: 0;
   display: inline;
@@ -257,6 +286,10 @@ tr.clickable:hover {
 
 .table-nonfluid td {
   vertical-align: middle;
+}
+
+.table-horizontal-bordered td {
+  border-bottom: 1px solid #ddd;
 }
 
 #custom-search-input {

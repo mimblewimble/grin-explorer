@@ -10,12 +10,16 @@
 	<link rel="stylesheet" href="{% static "css/style.css" %}">
     <!-- Load icon library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% block chart_loader_header %}{% endblock %}
   </head>
   <body>
 	<div class="container">
 	  <div class="row align-items-start">
-		<div class="col" style="margin-top:12px;">
-		  <h1><a href="/">GrinExplorer</a></h1>
+		<div style="margin-top:12px;">
+		  <a href="/" class="iconLogo"><img border="0" src="{% static "images/icons/logo_80x80.png" %}" width="45" height="45" /></a>
+		</div>
+		<div class="col" style="margin-top:16px;">
+		  <h2><a href="/" style="color:black">GrinExplorer</a></h2>
 		</div>
 		<div class="col text-right">
 		  <form class="search" method="get" action="/search" style="margin-top:12px;">
@@ -25,7 +29,7 @@
 		</div>
 	  </div>
 
-	  {% block content %}{% endblock content %}
+	  {% block content %}{% endblock %}
 	</div>
 
 	<br/>
