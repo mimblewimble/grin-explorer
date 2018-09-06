@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+
+{% block chart_loader_header %}
+    <!-- code to include the highcharts and jQuery libraries goes here -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+    <!-- load_charts filter takes a comma-separated list of id's where -->
+    <!-- the charts need to be rendered to                             -->
+	{% load chartit %}
+	{{ blockchart|load_charts:"containerblockchart" }}
+{% endblock %}
+
+
+{% block content %}
+  <br>
+
+  <div>
+        <div class="tag-box tag-box-v2 box-shadow shadow-effect-1" style="margin-bottom: 0px; background-color: #FFFFFF;">
+            <div id="containerblockchart" style="min-width: 1024px; height: 480px; margin: 0 auto">
+            </div>
+        </div>
+  </div>
+
+{% endblock %}

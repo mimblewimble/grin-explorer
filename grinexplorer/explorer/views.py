@@ -1,8 +1,10 @@
-from django.db.models import Count, Max, Min
+from django.db.models import Count, Sum, Max, Min
+from django.db.models.functions import TruncDay
 from django.views.generic import ListView, DetailView, TemplateView
 from django.shortcuts import redirect
 
 from blockchain.models import Block, Output
+from chartit import DataPool, Chart
 
 
 class BlockList(ListView):
@@ -10,7 +12,152 @@ class BlockList(ListView):
     context_object_name = "block_list"
 
     queryset = Block.objects.order_by("-timestamp")
-    paginate_by = 15
+    paginate_by = 20
+
+    def get_block_chart(self):
+        blockpivotdata = DataPool(
+            series=[{
+                'options': {
+                    'source': Block.objects.raw("select 1 as hash, to_char(timestamp,'MM-dd') as niceday, "
+                                                "max(total_difficulty) as total_difficulty, "
+                                                "date(DATE_TRUNC('day', timestamp)) as date, count(hash) as num "
+                                                "from blockchain_block "
+                                                "group by DATE_TRUNC('day', timestamp),niceday order by date")
+                },
+                'terms': [
+                    'niceday',
+                    'num',
+                    'total_difficulty',
+                ]
+            }]
+        )
+
+        blockpivcht = Chart(
+            datasource=blockpivotdata,
+            series_options=[{
+                'options': {
+                    'type': 'line',
+                    'xAxis': 0,
+                    'yAxis': 0,
+                    'zIndex': 1,
+                    'legendIndex': 1,
+                },
+                'terms': {
+                    'niceday': ['num']
+                }}, {
+                'options': {
+                    'type': 'line',
+                    'xAxis': 1,
+                    'yAxis': 1,
+                    'legendIndex': 0,
+                },
+                'terms': {
+                    'niceday': ['total_difficulty']
+                }
+            }],
+            chart_options={
+                'title': {
+                    'text': 'Blocks and Total Difficulty'
+                },
+                'xAxis': [
+                    {
+                        'title': {
+                            'text': 'Date',
+                            'style': {
+                                'display': 'none'
+                            }
+                        },
+                        'labels': {
+                            'enabled': True
+                        }
+                    },
+                    {
+                        'title': {
+                            'text': 'Date',
+                            'style': {
+                                'display': 'none'
+                            }
+                        },
+                        'labels': {
+                            'enabled': False
+                        },
+                        'lineColor': 'transparent',
+                        'tickLength': 0,
+                    }
+                ],
+                'yAxis': [
+                    {
+                        'title': {
+                            'text': 'Blocks',
+                            'style': {
+                                'color': '#70b3ef'
+                            }
+                        },
+                        'labels': {
+                            'enabled': False
+                        },
+                    },
+                    {
+                        'title': {
+                            'text': 'Total Diff'
+                        },
+                        'labels': {
+                            'enabled': False
+                        }
+                    }
+                ],
+                'legend': {
+                    'enabled': False
+                },
+            }
+        )
+        return blockpivcht
+
+    def get_fee_chart(self):
+        feepivotdata = DataPool(
+            series=[{
+                'options': {
+                    'source': Block.objects.raw("select 1 as hash, to_char(timestamp,'MM-dd') as niceday, "
+                                                "date(DATE_TRUNC('day', timestamp)) as date, sum(fee)/1000000 as fee "
+                                                "from blockchain_block t1 join blockchain_kernel t2 "
+                                                "on t2.block_id=t1.hash "
+                                                "group by DATE_TRUNC('day', timestamp),niceday order by date")
+                },
+                'terms': [
+                    'niceday',
+                    'fee'
+                ]
+            }]
+        )
+
+        feepivcht = Chart(
+            datasource=feepivotdata,
+            series_options=[{
+                'options': {
+                    'type': 'line',
+                    'stacking': False
+                },
+                'terms': {
+                    'niceday': [
+                        'fee',
+                    ]
+                }
+            }],
+            chart_options={
+                'title': {
+                    'text': 'Transaction Fee Chart'},
+                'xAxis': {
+                    'title': {
+                        'text': 'Date'}},
+                'yAxis': {
+                    'title': {
+                        'text': 'Tx Fee'}},
+                'legend': {
+                    'enabled': False},
+                'credits': {
+                    'enabled': False}},
+        )
+        return feepivcht
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -30,6 +177,8 @@ class BlockList(ListView):
                                     .annotate(cnt=Count("height")) \
                                     .filter(cnt__gt=1) \
                                     .aggregate(Min("height"))["height__min"]
+
+        context['thumb_chart_list'] = [self.get_block_chart(), self.get_fee_chart()]
 
         return context
 

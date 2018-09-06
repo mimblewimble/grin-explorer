@@ -1,18 +1,22 @@
 {% extends "base.html" %}
 
+{% load static %}
 {% load humanize %}
 {% load grin %}
 
 {% block content %}
-  <h2>Block {{ blk.height }}</h2>
-  <p>
-	Hash: <code>{{ blk.hash }}</code>
-  </p>
+  <br>
+  <br>
 
-  <table class="table table-bordered table-hover">
+  <div class="block_detail_header, row">
+      <img border="0" src="{% static "images/icons/cube_32x32.png" %}" width="20" height="20" />
+      <h4>&nbsp Block {{ blk.height | intcomma }}</h4>
+  </div>
+
+  <table class="table table-horizontal-bordered table-hover">
 	<tr>
-	  <td>Height</td>
-	  <td>{{ blk.height }}</td>
+	  <td>Hash</td>
+	  <td>{{ blk.hash }}</td>
 	</tr>
 	<tr>
 	  <td>Version</td>
@@ -24,7 +28,7 @@
 		{% if blk.height == 0 %}
 		  <em>(None, this is the Genesis Block)</em>
 		{% else %}
-		  <a href="/block/{{ blk.previous.hash }}" title="{{ blk.previous.hash }}">{{ blk.previous.hash | slice:":8" }}...</a>
+		  <a href="/block/{{ blk.previous.hash }}" title="{{ blk.previous.hash }}">{{ blk.previous.hash }}</a>
 		{% endif %}
 	  </td>
 	</tr>
@@ -69,27 +73,15 @@
 	  <td>Fees</td>
 	  <td>{{ blk.fees | nanogrin }}</td>
 	</tr>
-	<tr>
-	  <td># TX Kernels</td>
-	  <td>{{ blk.kernel_set.all.count }}</td>
-	</tr>
-	<tr>
-	  <td># Inputs</td>
-	  <td>{{ blk.input_set.all.count }}</td>
-	</tr>
-	<tr>
-	  <td># Outputs</td>
-	  <td>{{ blk.output_set.all.count }}</td>
-	</tr>
   </table>
 
   <details class="black">
 	<summary>Inputs ({{ blk.input_set.all.count }})</summary>
 
-	<table class="table table-bordered table-hover">
+	<table class="table table-horizontal-bordered table-hover">
 	  <thead class="thead-light">
 		<tr>
-		  <th>Data</th>
+		  <th>Commit</th>
 		</tr>
 	  </thead>
 	  <tbody>
@@ -107,10 +99,11 @@
   <details class="black">
 	<summary>Outputs ({{ blk.output_set.all.count }})</summary>
 
-	<table class="table table-bordered table-hover">
+	<table class="table table-horizontal-bordered table-hover">
 	  <thead class="thead-light">
 		<tr>
 		  <th>Output Type</th>
+		  <th>Commit</th>
 		  <th>Spent</th>
 		</tr>
 	  </thead>
@@ -118,6 +111,7 @@
 		{% for output in blk.output_set.all %}
 		  <tr>
 			<td>{{ output.output_type }}</td>
+			<td>{{ output.commit }}</td>
 			<td>{{ output.spent }}</td>
 		  </tr>
 		{% endfor %}
@@ -130,11 +124,12 @@
   <details class="black">
 	<summary>Kernels ({{ blk.kernel_set.all.count }})</summary>
 
-	<table class="table table-bordered table-hover">
+	<table class="table table-horizontal-bordered table-hover">
 	  <thead class="thead-light">
 		<tr>
 		  <th>Features</th>
 		  <th>Fee</th>
+		  <th>Lock Height</th>
 		</tr>
 	  </thead>
 	  <tbody>
@@ -142,6 +137,7 @@
 		  <tr>
 			<td>{{ kernel.features }}</td>
 			<td>{{ kernel.fee | nanogrin }}</td>
+			<td>{{ kernel.lock_height }}</td>
 		  </tr>
 		{% endfor %}
 	  </tbody>
