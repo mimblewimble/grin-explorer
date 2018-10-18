@@ -1,6 +1,35 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 
+SECOND_POW_EDGE_BITS = 29
+BASE_EDGE_BITS = 24
+
+
+def graph_weight(edge_bits):
+    # Compute weight of a graph as number of siphash bits defining the graph
+    return (2 << edge_bits-BASE_EDGE_BITS)*edge_bits
+
+
+def scaled_difficulty(hash, graph_weight):
+    # Difficulty achieved by this proof with given scaling factor
+    diff = (graph_weight) << 64 / int(hash[:16], 16)
+    return min(diff, 0xffffffffffffffff)
+
+
+def from_proof_adjusted(hash, edge_bits):
+    # Computes the difficulty from a hash. Divides the maximum target by the
+    # provided hash and applies the Cuck(at)oo size adjustment factor
+    # scale with natural scaling factor
+    return scaled_difficulty(hash, graph_weight(edge_bits))
+
+
+def from_proof_scaled(hash, scaling_difficulty):
+    # Same as `from_proof_adjusted` but instead of an adjustment based on
+    # cycle size, scales based on a provided factor. Used by dual PoW system
+    # to scale one PoW against the other.
+    # Scaling between 2 proof of work algos
+    return scaled_difficulty(hash, scaling_difficulty)
+
 
 class Block(models.Model):
     hash = models.CharField(
@@ -23,6 +52,8 @@ class Block(models.Model):
         null=True,
     )
 
+    prev_root = models.CharField(max_length=64)
+
     timestamp = models.DateTimeField()
 
     output_root = models.CharField(max_length=64)
@@ -33,7 +64,7 @@ class Block(models.Model):
 
     nonce = models.TextField()
 
-    cuckoo_size = models.IntegerField()
+    edge_bits = models.IntegerField()
 
     cuckoo_solution = ArrayField(models.IntegerField())
 
@@ -42,17 +73,24 @@ class Block(models.Model):
     # sum of the target difficulties, not the sum of the actual block difficulties
     total_difficulty = models.IntegerField()
 
+    scaling_difficulty = models.IntegerField()
+
     total_kernel_offset = models.CharField(max_length=64)
 
     @property
     def difficulty(self):
-        return 0xffffffffffffffff // int(self.hash[:16], 16) * (self.cuckoo_size-1)*2**(self.cuckoo_size-30)
+        # Maximum difficulty this proof of work can achieve
+        # 2 proof of works, Cuckoo29 (for now) and Cuckoo30+, which are scaled
+        # differently (scaling not controlled for now)
+        if (self.edge_bits == SECOND_POW_EDGE_BITS):
+            return from_proof_scaled(self.hash, self.scaling_difficulty)
+        else:
+            return from_proof_adjusted(self.hash, self.edge_bits)
 
     @property
     def target_difficulty(self):
         if self.previous is None:
             return None
-
         return self.total_difficulty - self.previous.total_difficulty
 
     @property
