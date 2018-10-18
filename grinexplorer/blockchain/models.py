@@ -12,7 +12,7 @@ def graph_weight(edge_bits):
 
 def scaled_difficulty(hash, graph_weight):
     # Difficulty achieved by this proof with given scaling factor
-    diff = (graph_weight) << 64 / int(hash[:16], 16)
+    diff = ((graph_weight) << 64) / int(hash[:16], 16)
     return min(diff, 0xffffffffffffffff)
 
 
