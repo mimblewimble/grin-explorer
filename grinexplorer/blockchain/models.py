@@ -83,9 +83,9 @@ class Block(models.Model):
         # 2 proof of works, Cuckoo29 (for now) and Cuckoo30+, which are scaled
         # differently (scaling not controlled for now)
         if (self.edge_bits == SECOND_POW_EDGE_BITS):
-            return from_proof_scaled(self.hash, self.scaling_difficulty)
+            return int(from_proof_scaled(self.hash, self.scaling_difficulty))
         else:
-            return from_proof_adjusted(self.hash, self.edge_bits)
+            return int(from_proof_adjusted(self.hash, self.edge_bits))
 
     @property
     def target_difficulty(self):
