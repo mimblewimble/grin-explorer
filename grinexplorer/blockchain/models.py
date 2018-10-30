@@ -23,12 +23,12 @@ def from_proof_adjusted(hash, edge_bits):
     return scaled_difficulty(hash, graph_weight(edge_bits))
 
 
-def from_proof_scaled(hash, scaling_difficulty):
+def from_proof_scaled(hash, secondary_scaling):
     # Same as `from_proof_adjusted` but instead of an adjustment based on
     # cycle size, scales based on a provided factor. Used by dual PoW system
     # to scale one PoW against the other.
     # Scaling between 2 proof of work algos
-    return scaled_difficulty(hash, scaling_difficulty)
+    return scaled_difficulty(hash, secondary_scaling)
 
 
 class Block(models.Model):
@@ -73,7 +73,7 @@ class Block(models.Model):
     # sum of the target difficulties, not the sum of the actual block difficulties
     total_difficulty = models.IntegerField()
 
-    scaling_difficulty = models.IntegerField()
+    secondary_scaling = models.IntegerField()
 
     total_kernel_offset = models.CharField(max_length=64)
 
@@ -83,7 +83,7 @@ class Block(models.Model):
         # 2 proof of works, Cuckoo29 (for now) and Cuckoo30+, which are scaled
         # differently (scaling not controlled for now)
         if (self.edge_bits == SECOND_POW_EDGE_BITS):
-            return int(from_proof_scaled(self.hash, self.scaling_difficulty))
+            return int(from_proof_scaled(self.hash, self.secondary_scaling))
         else:
             return int(from_proof_adjusted(self.hash, self.edge_bits))
 
