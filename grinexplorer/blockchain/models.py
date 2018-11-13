@@ -71,7 +71,7 @@ class Block(models.Model):
     difficulty = models.IntegerField()
 
     # sum of the target difficulties, not the sum of the actual block difficulties
-    total_difficulty = models.IntegerField()
+    total_difficulty = models.BigIntegerField()
 
     secondary_scaling = models.IntegerField()
 
