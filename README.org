@@ -1,11 +1,11 @@
 * Grin-Explorer
 
-Grin-Explorer is the first block explorer for the [[http://grin-tech.org][Grin]] 
+Grin-Explorer is the first block explorer for the [[https://grin-tech.org][Grin]]
 blockchain. This is the source code for the instance running at 
 [[https://grinexplorer.net]].
 
-I hope it provides a useful service for anybody interested in grin and to its
-developers.
+I hope it provides a useful service for anybody interested in Grin and to its
+development.
 
 ** Bugs, Feature Requests, etc.
 
@@ -27,16 +27,50 @@ that repo.p
 
 Python >= 3.5 and PostgreSQL >= 9.3 are required.
 
+Grin is required to run as an archival node and basic auth needs to be disabled
+in its REST API. Set `archive_mode = true` and comment out `api_secret_path` in
+`grin-server.toml` respectively.
+
 *** Installation
 
-- Clone this repo
-- ~cd grin-explorer~
-- ~python3 -m venv venv~
-- ~source venv/bin/activate~
-- ~pip install -r requirements~
-- ~cd grinexplorer~
-- ~./manage.py runserver~
+Start PostgreSQL. Note that the following is just an example to run PostgreSQL,
+you should ensure you use your own user and credentials when setting it up.
+```sh
+sudo postgresql-setup --initdb
+sudo systemctl start postgresql
+sudo -u postgres -i
+# psql
+postgres=# \password postgres
+Enter new password:
+Enter it again:
+postgres=# CREATE USER myuser WITH PASSWORD 'mypass';
+postgres=# CREATE DATABASE mydb;
+postgres=# GRANT ALL PRIVILEGES ON DATABASE mydb to myuser;
+postgres=# \q
+sudo systemctl restart postgresql
+```
+
+Start `grin-explorer`. Again, ensure you use your own credentials for Django.
+```sh
+git clone https://github.com/mimblewimble/grin-explorer
+cd grin-explorer
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+# SECRET_KEY is required by Django
+export SECRET_KEY=somesecretkey
+# PostgreSQL configuration
+export DB_NAME=mydb
+export DB_USER=myuser
+export DB_PASSWORD=mypass
+export DB_HOST=127.0.0.1
+export DB_PORT=5432
+python3 ./grinexplorer/manage.py migrate
+python3 ./grinexplorer/manage.py runserver
+```
 
 *** Import blockchain
-- ~./manage.py import_from_tip http://127.0.0.1:13413~
+```sh
+python3 ./grinexplorer/manage.py import_from_tip http://127.0.0.1:13413
+```
 
