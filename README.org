@@ -35,7 +35,8 @@ in its REST API. Set `archive_mode = true` and comment out `api_secret_path` in
 
 Start PostgreSQL. Note that the following is just an example to run PostgreSQL,
 you should ensure you use your own user and credentials when setting it up.
-```sh
+
+#+begin_src sh
 sudo postgresql-setup --initdb
 sudo systemctl start postgresql
 sudo -u postgres -i
@@ -48,10 +49,11 @@ postgres=# CREATE DATABASE mydb;
 postgres=# GRANT ALL PRIVILEGES ON DATABASE mydb to myuser;
 postgres=# \q
 sudo systemctl restart postgresql
-```
+#+end_src
 
 Start `grin-explorer`. Again, ensure you use your own credentials for Django.
-```sh
+
+#+begin_src sh
 git clone https://github.com/mimblewimble/grin-explorer
 cd grin-explorer
 python3 -m venv venv
@@ -67,10 +69,11 @@ export DB_HOST=127.0.0.1
 export DB_PORT=5432
 python3 ./grinexplorer/manage.py migrate
 python3 ./grinexplorer/manage.py runserver
-```
+#+end_src
 
 *** Import blockchain
-```sh
+
+#+begin_src sh
 python3 ./grinexplorer/manage.py import_from_tip http://127.0.0.1:13413
-```
+#+end_src
 
