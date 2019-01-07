@@ -33,7 +33,7 @@ class Command(BaseCommand):
         try:
             data = resp.json()
         except json.decoder.JSONDecodeError:
-            print("Decoding JSON failed (did you set `archive_mode=true` in grin-server.toml?")
+            print("Decoding JSON failed (make sure to disable api_secret_path in grin-server.toml")
             print("resp=%r" % resp.text)
             exit()
 
@@ -58,7 +58,13 @@ class Command(BaseCommand):
             parent = block_hash
 
     def fetch_and_store_block(self, hash, parent_hash):
-        block_data = requests.get(self.API_BASE + "blocks/" + hash).json()
+        resp = requests.get(self.API_BASE + "blocks/" + hash)
+        try:
+            block_data = resp.json()
+        except json.decoder.JSONDecodeError:
+            print("Decoding JSON failed (make sure to set `archive_mode=true` in grin-server.toml")
+            print("resp=%r" % resp.text)
+            exit()
 
         try:
             block = Block.objects.get(hash=hash)
