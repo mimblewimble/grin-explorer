@@ -1,3 +1,4 @@
+import json
 from enum import Enum
 
 import requests
@@ -27,7 +28,15 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.API_BASE = "%s/v1/" % options["url"]
 
-        data = requests.get(self.API_BASE + "chain").json()
+        resp = requests.get(self.API_BASE + "chain")
+
+        try:
+            data = resp.json()
+        except json.decoder.JSONDecodeError:
+            print("Decoding JSON failed (make sure to disable api_secret_path in grin-server.toml")
+            print("resp=%r" % resp.text)
+            exit()
+
         height = data["height"]
         tip = data["last_block_pushed"]
         self.stdout.write("height={}, tip={}\n\n".format(height, tip))
@@ -49,7 +58,13 @@ class Command(BaseCommand):
             parent = block_hash
 
     def fetch_and_store_block(self, hash, parent_hash):
-        block_data = requests.get(self.API_BASE + "blocks/" + hash).json()
+        resp = requests.get(self.API_BASE + "blocks/" + hash)
+        try:
+            block_data = resp.json()
+        except json.decoder.JSONDecodeError:
+            print("Decoding JSON failed (make sure to set `archive_mode=true` in grin-server.toml")
+            print("resp=%r" % resp.text)
+            exit()
 
         try:
             block = Block.objects.get(hash=hash)
