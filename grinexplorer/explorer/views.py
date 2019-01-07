@@ -172,7 +172,7 @@ class BlockList(ListView):
                                            .annotate(cnt=Count("height")) \
                                            .aggregate(Max("cnt"))["cnt__max"]
         context["forked_at"] = Block.objects \
-                                    .filter(height__gte=context["highest_block"].height - 1000) \
+                                    .filter(height__gte=context["highest_block"].height - 60) \
                                     .values("height") \
                                     .annotate(cnt=Count("height")) \
                                     .filter(cnt__gt=1) \
