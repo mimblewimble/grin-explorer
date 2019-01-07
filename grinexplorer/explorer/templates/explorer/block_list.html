@@ -1,163 +1,168 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% load humanize %}
+{% load grin %}
+{% load shortnaturaltime %}
 
 {% block chart_loader_header %}
-	{% load humanize %}
-	{% load grin %}
-	{% load shortnaturaltime %}
-
-    <!-- code to include the highcharts and jQuery libraries goes here -->
+  {% if block_list.exists %}
+	<!-- code to include the highcharts and jQuery libraries goes here -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
 	<script src="https://code.highcharts.com/highcharts.js"></script>
-    <!-- load_charts filter takes a comma-separated list of id's where -->
-    <!-- the charts need to be rendered to                             -->
+	<!-- load_charts filter takes a comma-separated list of id's where -->
+	<!-- the charts need to be rendered to                             -->
 	{% load chartit %}
 	{{ thumb_chart_list|load_charts:"thumbnail_blockchart, thumbnail_feechart" }}
+  {% endif %}
 {% endblock %}
 
-
 {% block content %}
-  <br>
+  {% if block_list.exists %}
+	<br>
 
-  <div class="row align-items-start">
-	  <div class="col col-sm-6">
-		    <a href="/chart/block">
-				<div class="tag-box tag-box-v2 box-shadow shadow-effect-1" style="border-right-color: #3498db; border-right-style: solid; border-right-width: 2px; margin-bottom: 0px; background-color: #FFFFFF;">
-					<div id="thumbnail_blockchart" style="min-width: 255px; height: 200px; margin: 0 auto">
-					</div>
-				</div>
-			</a>
-	  </div>
-	  <div class="col col-sm-6">
-		    <a href="/chart/fee">
-				<div class="tag-box tag-box-v2 box-shadow shadow-effect-1" style="border-right-color: #3498db; border-right-style: solid; border-right-width: 2px; margin-bottom: 0px; background-color: #FFFFFF;">
-					<div id="thumbnail_feechart" style="min-width: 255px; height: 200px; margin: 0 auto">
-					</div>
-				</div>
-			</a>
-	  </div>
-  </div>
-
-  <br>
-
-  <div class="row">
-	<div class="col-sm-6 col-md-3">
-	  <div class="card">
-		<div class="card-header">
-		  Chain Height
-		</div>
-		<div class="card-body">
-		  <h4 class="card-title">{{ highest_block.height | intcomma }}</h4>
-		</div>
-	  </div>
-	</div>
-
-	<div class="col-sm-6 col-md-3">
-	  <div class="card">
-		<div class="card-header">
-		  Latest Block
-		</div>
-		<div class="card-body">
-		  <h4 class="card-title">{{ latest_block.timestamp | naturaltime }}</h4>
-		</div>
-	  </div>
-	</div>
-
-	<div class="col-sm-6 col-md-3">
-	  <div class="card" title="Actual vs. Expected Block Difficulty">
-		<div class="card-header">
-		  Latest Block Difficulty
-		</div>
-		<div class="card-body">
-		  <h4 class="card-title">
-			{{ latest_block.difficulty | intcomma }} / {{ latest_block.target_difficulty | intcomma }}
-		  </h4>
-		</div>
-	  </div>
-	</div>
-
-	<div class="col-sm-6 col-md-3">
-	  <div class="card">
-		<div class="card-header">
-		  Emission
-		</div>
-		<div class="card-body">
-		  <h4 class="card-title">{{ total_emission | grin }}</h4>
-		</div>
-	  </div>
-	</div>
-  </div>
-
-  <br>
-
-  {% if competing_chains > 1 %}
-	<div class="alert alert-danger" role="alert">
-	  <strong>Fork detected!</strong>
-	  We've detected {{ competing_chains | apnumber }} competing chains, forked at <a href="/block/{{ forked_at }}">Block {{ forked_at }}</a>. Stay wary!
-	</div>
-  {% endif %}
-
-  {% if block_list %}
 	<div class="row align-items-start">
-		<div class="col">
-			<div class="block_detail_header, row">
-				<img border="0" src="{% static "images/icons/cubes_32x32.png" %}" width="25" height="25" />
-				<h4>&nbsp Blocks</h4>
+	  <div class="col col-sm-6">
+		<a href="/chart/block">
+		  <div class="tag-box tag-box-v2 box-shadow shadow-effect-1" style="border-right-color: #3498db; border-right-style: solid; border-right-width: 2px; margin-bottom: 0px; background-color: #FFFFFF;">
+			<div id="thumbnail_blockchart" style="min-width: 255px; height: 200px; margin: 0 auto">
 			</div>
+		  </div>
+		</a>
+	  </div>
+	  <div class="col col-sm-6">
+		<a href="/chart/fee">
+		  <div class="tag-box tag-box-v2 box-shadow shadow-effect-1" style="border-right-color: #3498db; border-right-style: solid; border-right-width: 2px; margin-bottom: 0px; background-color: #FFFFFF;">
+			<div id="thumbnail_feechart" style="min-width: 255px; height: 200px; margin: 0 auto">
+			</div>
+		  </div>
+		</a>
+	  </div>
+	</div>
+
+	<br>
+
+	<div class="row">
+	  <div class="col-sm-6 col-md-3">
+		<div class="card">
+		  <div class="card-header">
+			Chain Height
+		  </div>
+		  <div class="card-body">
+			<h4 class="card-title">{{ highest_block.height | intcomma }}</h4>
+		  </div>
+		</div>
+	  </div>
+
+	  <div class="col-sm-6 col-md-3">
+		<div class="card">
+		  <div class="card-header">
+			Latest Block
+		  </div>
+		  <div class="card-body">
+			<h4 class="card-title">{{ latest_block.timestamp | naturaltime }}</h4>
+		  </div>
+		</div>
+	  </div>
+
+	  <div class="col-sm-6 col-md-3">
+		<div class="card" title="Actual vs. Expected Block Difficulty">
+		  <div class="card-header">
+			Latest Block Difficulty
+		  </div>
+		  <div class="card-body">
+			<h4 class="card-title">
+			  {{ latest_block.difficulty | intcomma }} / {{ latest_block.target_difficulty | intcomma }}
+			</h4>
+		  </div>
+		</div>
+	  </div>
+
+	  <div class="col-sm-6 col-md-3">
+		<div class="card">
+		  <div class="card-header">
+			Emission
+		  </div>
+		  <div class="card-body">
+			<h4 class="card-title">{{ total_emission | grin }}</h4>
+		  </div>
+		</div>
+	  </div>
+	</div>
+
+	<br>
+
+	{% if competing_chains > 1 %}
+	  <div class="alert alert-danger" role="alert">
+		<strong>Fork detected!</strong>
+		We've detected {{ competing_chains | apnumber }} competing chains, forked at <a href="/block/{{ forked_at }}">Block {{ forked_at }}</a>. Stay wary!
+	  </div>
+	{% endif %}
+
+	{% if block_list %}
+	  <div class="row align-items-start">
+		<div class="col">
+		  <div class="block_detail_header, row">
+			<img border="0" src="{% static "images/icons/cubes_32x32.png" %}" width="25" height="25" />
+			<h4>&nbsp Blocks</h4>
+		  </div>
 		</div>
 		<div class="col-sm-6 col-md-3" align="center">
-			{% if is_paginated %}
+		  {% if is_paginated %}
 			<ul class="pagination justify-content-center">
-				{% if page_obj.has_previous %}
+			  {% if page_obj.has_previous %}
 				<li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
-				{% else %}
+			  {% else %}
 				<li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
-				{% endif %}
-				<li class="page-item disabled">
-					<a class="page-link" href="#">{{ page_obj.number }} / {{ paginator.num_pages }}</a>
-				</li>
-				{% if page_obj.has_next %}
+			  {% endif %}
+			  <li class="page-item disabled">
+				<a class="page-link" href="#">{{ page_obj.number }} / {{ paginator.num_pages }}</a>
+			  </li>
+			  {% if page_obj.has_next %}
 				<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
-				{% else %}
+			  {% else %}
 				<li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
-				{% endif %}
+			  {% endif %}
 			</ul>
-			{% endif %}
+		  {% endif %}
 
-			{% else %}
-			Sorry, there was an error fetching the list of blocks. Please try again later.
-			{% endif %}
+	{% else %}
+		  Sorry, there was an error fetching the list of blocks. Please try again later.
+	{% endif %}
 		</div>
-	</div>
+	  </div>
 
-	<table class="table table-horizontal-bordered table-hover">
-	  <thead class="thead-light">
-		<tr>
-		  <th>Height</th>
-		  <th>Hash</th>
-		  <th>Age</th>
-		  <th title="Actual vs. Target Difficulty">Difficulty</th>
-		  <th># Kernels</th>
-		  <th># Inputs</th>
-		  <th># Outputs</th>
-		</tr>
-	  </thead>
-	  <tbody>
-		{% for blk in block_list %}
+	  <table class="table table-horizontal-bordered table-hover">
+		<thead class="thead-light">
 		  <tr>
-			<td><a href="/block/{{ blk.height }}" style="color:royalblue">{{ blk.height }}</a></td>
-			<td><a href="/block/{{ blk.hash }}" style="color:royalblue"><font face=monospace>{{ blk.hash }}</font></a></td>
-			<td>{{ blk.timestamp | shortnaturaltime }}</td>
-			<td class="numeric" title="Actual vs. Expected Block Difficulty">
-			  {{ blk.difficulty | intcomma }} / {{ blk.target_difficulty | intcomma }}
-			</td>
-			<td class="numeric" align="left">{{ blk.kernel_set.all.count }}</td>
-			<td class="numeric" align="left">{{ blk.input_set.all.count }}</td>
-			<td class="numeric" align="left">{{ blk.output_set.all.count }}</td>
+			<th>Height</th>
+			<th>Hash</th>
+			<th>Age</th>
+			<th title="Actual vs. Target Difficulty">Difficulty</th>
+			<th># Kernels</th>
+			<th># Inputs</th>
+			<th># Outputs</th>
 		  </tr>
-		{% endfor %}
-	  </tbody>
-	</table>
-
+		</thead>
+		<tbody>
+		  {% for blk in block_list %}
+			<tr>
+			  <td><a href="/block/{{ blk.height }}" style="color:royalblue">{{ blk.height }}</a></td>
+			  <td><a href="/block/{{ blk.hash }}" style="color:royalblue"><font face=monospace>{{ blk.hash }}</font></a></td>
+			  <td>{{ blk.timestamp | shortnaturaltime }}</td>
+			  <td class="numeric" title="Actual vs. Expected Block Difficulty">
+				{{ blk.difficulty | intcomma }} / {{ blk.target_difficulty | intcomma }}
+			  </td>
+			  <td class="numeric" align="left">{{ blk.kernel_set.all.count }}</td>
+			  <td class="numeric" align="left">{{ blk.input_set.all.count }}</td>
+			  <td class="numeric" align="left">{{ blk.output_set.all.count }}</td>
+			</tr>
+		  {% endfor %}
+		</tbody>
+	  </table>
+  {% else %}
+	  <br><br>
+	  <h1>Block Database is empty</h1>
+	  <h2>Please run <code>./manage.py import_from_tip ...</code> to populate the database.</h2>
+  {% endif %}
 {% endblock %}
