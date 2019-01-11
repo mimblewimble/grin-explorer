@@ -37,16 +37,21 @@
 	  <td>{{ blk.timestamp | date:"Y-m-d, H:i:s" }} UTC</td>
 	</tr>
 	<tr>
-	  <td>Cuckoo Solution</td>
+	  <td>PoW Algorithm</td>
 	  <td>
-	    <details>
-	      <summary>Size: {{ blk.cuckoo_size }}</summary>
-	      {{ blk.cuckoo_solution }}
-	    </details>
+	    {% if blk.edge_bits == 29 %}
+	    cuckARoo29
+	    {% elif blk.edge_bits == 31 %}
+	    cuckAToo31
+	    {% endif %}
 	  </td>
 	</tr>
 	<tr>
-	  <td>Difficulty</td>
+	  <td>Secondary Scale</td>
+	  <td>{{ blk.secondary_scaling | intcomma }}</td>
+	</tr>
+	<tr>
+	  <td>Solution Difficulty</td>
 	  <td>{{ blk.difficulty | floatformat:-2 | intcomma }}</td>
 	</tr>
 	<tr>
