@@ -138,7 +138,8 @@
 			<th>Height</th>
 			<th>Hash</th>
 			<th>Age</th>
-			<th title="Actual vs. Target Difficulty">Difficulty</th>
+		  <th>Difficulty</th>
+		  <th>PoW Algo</th>
 			<th># Kernels</th>
 			<th># Inputs</th>
 			<th># Outputs</th>
@@ -150,8 +151,13 @@
 			  <td><a href="/block/{{ blk.height }}" style="color:royalblue">{{ blk.height }}</a></td>
 			  <td><a href="/block/{{ blk.hash }}" style="color:royalblue"><font face=monospace>{{ blk.hash }}</font></a></td>
 			  <td>{{ blk.timestamp | shortnaturaltime }}</td>
-			  <td class="numeric" title="Actual vs. Expected Block Difficulty">
-				{{ blk.difficulty | intcomma }} / {{ blk.target_difficulty | intcomma }}
+			<td class="numeric">{{ blk.target_difficulty | intcomma }}</td>
+			<td>
+			  {% if blk.edge_bits == 29 %}
+			  cuckARoo29
+			  {% elif blk.edge_bits == 31 %}
+			  cuckAToo31
+			  {% endif %}
 			  </td>
 			  <td class="numeric" align="left">{{ blk.kernel_set.all.count }}</td>
 			  <td class="numeric" align="left">{{ blk.input_set.all.count }}</td>
