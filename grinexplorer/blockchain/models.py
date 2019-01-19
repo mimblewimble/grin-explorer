@@ -139,7 +139,8 @@ class Output(models.Model):
     block_height = models.IntegerField(null=True)
 
     merkle_proof = models.TextField(null=True)
-
+    
+    mmr_index = models.IntegerField(null=True)
 
 class Kernel(models.Model):
     block = models.ForeignKey(
