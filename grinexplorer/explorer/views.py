@@ -168,7 +168,7 @@ class BlockList(ListView):
             context["total_emission"] = Block.objects.order_by("total_difficulty").last().height * 60
 
             context["competing_chains"] = Block.objects \
-                                               .filter(height__gte=context["highest_block"].height - 100) \
+                                               .filter(height__gte=context["highest_block"].height - 60) \
                                                .values("height") \
                                                .annotate(cnt=Count("height")) \
                                                .aggregate(Max("cnt"))["cnt__max"]
