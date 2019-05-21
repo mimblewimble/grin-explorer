@@ -3,7 +3,7 @@ from django.db.models.functions import TruncDay
 from django.views.generic import ListView, DetailView, TemplateView
 from django.shortcuts import redirect
 
-from blockchain.models import Block, Output
+from blockchain.models import Block, Input, Output
 from chartit import DataPool, Chart
 
 
@@ -211,6 +211,9 @@ class OutputByCommit(TemplateView):
         if len(outputs) != 0:
             self.output = outputs[0]
             self.output.occurrences = len(outputs)
+            if Input.objects.filter(data=commit).exists():
+                # update as spent
+                Output.spent = True
             return super().get(request)
 
 

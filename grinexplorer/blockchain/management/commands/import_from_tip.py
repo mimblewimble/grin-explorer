@@ -102,10 +102,6 @@ class Command(BaseCommand):
                 block=block,
                 data=input_data,
             )
-            if Output.objects.filter(commit=input_data).exists():
-                # update as spent
-                Output.objects.filter(commit=input_data).update(
-                    spent=True)
 
         for output_data in block_data["outputs"]:
             Output.objects.create(

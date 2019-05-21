@@ -109,7 +109,10 @@ class Input(models.Model):
         db_index=True,
     )
 
-    data = models.CharField(max_length=66)
+    data = models.CharField(
+        max_length=66,
+        db_index=True,
+    )
 
 
 class Output(models.Model):
