@@ -128,7 +128,10 @@ class Output(models.Model):
         choices=OUTPUT_TYPE
     )
 
-    commit = models.CharField(max_length=66)
+    commit = models.CharField(
+        max_length=66,
+        db_index=True,
+    )
 
     spent = models.BooleanField()
 
@@ -139,8 +142,9 @@ class Output(models.Model):
     block_height = models.IntegerField(null=True)
 
     merkle_proof = models.TextField(null=True)
-    
+
     mmr_index = models.IntegerField(null=True)
+
 
 class Kernel(models.Model):
     block = models.ForeignKey(

@@ -164,8 +164,10 @@ class BlockList(ListView):
 
         if Block.objects.exists():
             context["highest_block"] = Block.objects.order_by("height").last()
-            context["latest_block"] = Block.objects.order_by("timestamp").last()
-            context["total_emission"] = Block.objects.order_by("total_difficulty").last().height * 60
+            context["latest_block"] = Block.objects.order_by(
+                "timestamp").last()
+            context["total_emission"] = Block.objects.order_by(
+                "total_difficulty").last().height * 60
 
             context["competing_chains"] = Block.objects \
                                                .filter(height__gte=context["highest_block"].height - 60) \
@@ -179,7 +181,8 @@ class BlockList(ListView):
                                         .filter(cnt__gt=1) \
                                         .aggregate(Min("height"))["height__min"]
 
-            context['thumb_chart_list'] = [self.get_block_chart(), self.get_fee_chart()]
+            context['thumb_chart_list'] = [
+                self.get_block_chart(), self.get_fee_chart()]
 
         return context
 
@@ -189,6 +192,13 @@ class BlockDetail(DetailView):
 
     template_name = "explorer/block_detail.html"
     context_object_name = "blk"
+
+
+class OutputDetail(DetailView):
+    model = Output
+
+    template_name = "explorer/output_detail.html"
+    context_object_name = "output"
 
 
 class BlocksByHeight(TemplateView):
@@ -203,7 +213,8 @@ class BlocksByHeight(TemplateView):
         return context
 
     def get(self, request, height):
-        self.blocks = Block.objects.filter(height=height).order_by("-total_difficulty")
+        self.blocks = Block.objects.filter(
+            height=height).order_by("-total_difficulty")
         self.height = height
 
         if len(self.blocks) == 1:
@@ -236,8 +247,17 @@ class Search(TemplateView):
             if Block.objects.filter(height=self.q).count():
                 return redirect("blocks-by-height", height=self.q, permanent=False)
 
-        # require at least 8 characters
-        if len(self.q) >= 6:
+        # commitment are 66 characters long
+        if len(self.q) == 66:
+            self.results = Output.objects.filter(commit__startswith=self.q)
+
+            # if only one result, redirect to commit detail
+            if self.results.count() == 1:
+                print(self.results[0].commit)
+                print(self.results[0])
+                return redirect("output-detail", pk=self.results[0].id, permanent=False)
+
+        if len(self.q) > 6:
             self.results = Block.objects.filter(hash__startswith=self.q)
 
             # if only one result, redirect to found block
