@@ -145,6 +145,9 @@ class Output(models.Model):
 
     mmr_index = models.IntegerField(null=True)
 
+    def occurrences(self):
+        return 1
+
 
 class Kernel(models.Model):
     block = models.ForeignKey(

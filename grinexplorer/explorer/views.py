@@ -194,11 +194,24 @@ class BlockDetail(DetailView):
     context_object_name = "blk"
 
 
-class OutputDetail(DetailView):
-    model = Output
-
+class OutputByCommit(TemplateView):
     template_name = "explorer/output_detail.html"
-    context_object_name = "output"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["output"] = self.output
+
+        return context
+
+    def get(self, request, commit):
+        outputs = Output.objects.filter(
+            commit=commit).order_by("-id")
+
+        if len(outputs) != 0:
+            self.output = outputs[0]
+            self.output.occurrences = len(outputs)
+            return super().get(request)
 
 
 class BlocksByHeight(TemplateView):
@@ -249,13 +262,12 @@ class Search(TemplateView):
 
         # commitment are 66 characters long
         if len(self.q) == 66:
-            self.results = Output.objects.filter(commit__startswith=self.q)
+            self.results = Output.objects.filter(
+                commit=self.q).order_by("-id")
 
             # if only one result, redirect to commit detail
-            if self.results.count() == 1:
-                print(self.results[0].commit)
-                print(self.results[0])
-                return redirect("output-detail", pk=self.results[0].id, permanent=False)
+            if self.results.count() != 0:
+                return redirect("output-detail", commit=self.results[0].commit, permanent=False)
 
         if len(self.q) > 6:
             self.results = Block.objects.filter(hash__startswith=self.q)

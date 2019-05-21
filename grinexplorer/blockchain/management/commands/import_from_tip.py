@@ -33,7 +33,8 @@ class Command(BaseCommand):
         try:
             data = resp.json()
         except json.decoder.JSONDecodeError:
-            print("Decoding JSON failed (make sure to disable api_secret_path in grin-server.toml")
+            print(
+                "Decoding JSON failed (make sure to disable api_secret_path in grin-server.toml")
             print("resp=%r" % resp.text)
             exit()
 
@@ -62,13 +63,15 @@ class Command(BaseCommand):
         try:
             block_data = resp.json()
         except json.decoder.JSONDecodeError:
-            print("Decoding JSON failed (make sure to set `archive_mode=true` in grin-server.toml")
+            print(
+                "Decoding JSON failed (make sure to set `archive_mode=true` in grin-server.toml")
             print("resp=%r" % resp.text)
             exit()
 
         try:
             block = Block.objects.get(hash=hash)
-            self.stdout.write("Block {} already exists @ {}".format(block.hash, block.height))
+            self.stdout.write("Block {} already exists @ {}".format(
+                block.hash, block.height))
 
             if parent_hash is not None:
                 parent = Block.objects.get(hash=parent_hash)
@@ -77,7 +80,8 @@ class Command(BaseCommand):
                     assert parent.height == block.height + 1
                     parent.previous = block
                     parent.save(update_fields=["previous"])
-                    self.stdout.write("Stored block {} as previous of block {}".format(block.hash[:6], parent.hash[:6]))
+                    self.stdout.write("Stored block {} as previous of block {}".format(
+                        block.hash[:6], parent.hash[:6]))
 
             return (Status.ALREADY_EXISTS, block.hash, block_data["header"]["previous"])
         except Block.DoesNotExist:
@@ -98,6 +102,10 @@ class Command(BaseCommand):
                 block=block,
                 data=input_data,
             )
+            if Output.objects.filter(commit=input_data).exists():
+                # update as spent
+                Output.objects.filter(commit=input_data).update(
+                    spent=True)
 
         for output_data in block_data["outputs"]:
             Output.objects.create(
@@ -111,14 +119,15 @@ class Command(BaseCommand):
                 **kernel_data,
             )
 
-        self.stdout.write("Stored block {} @ {}".format(block.hash, block.height))
+        self.stdout.write("Stored block {} @ {}".format(
+            block.hash, block.height))
         # set parent's `previous` PK to this Block
         if parent_hash is not None:
             parent = Block.objects.get(hash=parent_hash)
             assert parent.height == block.height + 1
             parent.previous = block
             parent.save(update_fields=["previous"])
-            self.stdout.write("  Marked block {} as previous of block {}".format(block.hash[:6], parent.hash[:6]))
-
+            self.stdout.write("  Marked block {} as previous of block {}".format(
+                block.hash[:6], parent.hash[:6]))
 
         return (Status.CREATED, block.hash, previous)
