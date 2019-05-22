@@ -211,9 +211,11 @@ class OutputByCommit(TemplateView):
         if len(outputs) != 0:
             self.output = outputs[0]
             self.output.occurrences = len(outputs)
-            if Input.objects.filter(data=commit).exists():
+            temp_input = Input.objects.filter(data=commit)
+            if len(temp_input) != 0:
                 # update as spent
-                Output.spent = True
+                self.output.spent = True
+                self.output.spent_at = temp_input[0].block.height
             return super().get(request)
 
 

@@ -2,41 +2,47 @@
 {% load static %}
 
 <html>
-  <head>
+
+<head>
 	<title>GrinExplorer</title>
-        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 	<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
 	<link rel="stylesheet" href="{% static "css/project.css" %}">
 	<link rel="stylesheet" href="{% static "css/style.css" %}">
-    <!-- Load icon library -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    {% block chart_loader_header %}{% endblock %}
-  </head>
-  <body>
-	<div class="container">
-	  <div class="row align-items-start">
-		<div style="margin-top:12px;">
-		  <a href="/" class="iconLogo"><img border="0" src="{% static "images/icons/logo_80x80.png" %}" width="45" height="45" /></a>
-		</div>
-		<div class="col" style="margin-top:16px;">
-		  <h2><a href="/" style="color:black">GrinExplorer</a></h2>
-		</div>
-		<div class="col text-right">
-		  <form class="search" method="get" action="/search" style="margin-top:12px;">
-			  <input class="form-control" type="text" name="q" placeholder="Search by block hash or height" style="text-align: center;" size="66">
-			  <button type="submit"><i class="fa fa-search"></i></button>
-		  </form>
-		</div>
-	  </div>
+	<!-- Load icon library -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	{% block chart_loader_header %}{% endblock %}
+</head>
 
-	  {% block content %}{% endblock %}
+<body>
+	<div class="container">
+		<div class="row align-items-start">
+			<div style="margin-top:12px;">
+				<a href="/" class="iconLogo"><img border="0" src="{% static "images/icons/logo_80x80.png" %}" width="45"
+						height="45" /></a>
+			</div>
+			<div class="col" style="margin-top:16px;">
+				<h2><a href="/" style="color:black">GrinExplorer</a></h2>
+			</div>
+			<div class="col text-right">
+				<form class="search" method="get" action="/search" style="margin-top:12px;">
+					<input class="form-control" type="text" name="q" placeholder="Search by block hash, height or output"
+						style="text-align: center;" size="66">
+					<button type="submit"><i class="fa fa-search"></i></button>
+				</form>
+			</div>
+		</div>
+
+		{% block content %}{% endblock %}
 	</div>
 
-	<br/>
-	<br/>
+	<br />
+	<br />
 
 	<footer>
-	  <a href="https://grinexplorer.net/">GrinExplorer.net</a> is powered by <a href="https://github.com/mimblewimble/grin-explorer">grin-explorer</a> released under the GNU AGPL.
+		<a href="https://grinexplorer.net/">GrinExplorer.net</a> is powered by <a
+			href="https://github.com/mimblewimble/grin-explorer">grin-explorer</a> released under the GNU AGPL.
 	</footer>
-  </body>
+</body>
+
 </html>
