@@ -28,12 +28,19 @@
 	</tr>
 	<tr>
 		<td>Block Height</td>
-		<td>{{ output.block_height }}</td>
+		<td><a href="/block/{{ output.block_height }}" title="{{ output.block_height }}">{{ output.block_height }}</a>
+		</td>
 	</tr>
 	<tr>
 		<td>Spent</td>
 		<td>{{ output.spent }}</td>
 	</tr>
+	{% if output.spent %}
+	<tr>
+		<td>Spent at Height</td>
+		<td><a href="/block/{{ output.spent_at }}" title="{{ output.spent_at }}">{{ output.spent_at }}</a></td>
+	</tr>
+	{% endif %}
 </table>
 
 {% endblock content %}

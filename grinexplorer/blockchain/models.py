@@ -151,6 +151,9 @@ class Output(models.Model):
     def occurrences(self):
         return 1
 
+    def spent_at(self):
+        return None
+
 
 class Kernel(models.Model):
     block = models.ForeignKey(
