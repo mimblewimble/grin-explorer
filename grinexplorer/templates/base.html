@@ -11,28 +11,33 @@
 	<link rel="stylesheet" href="{% static "css/project.css" %}">
 	<link rel="stylesheet" href="{% static "css/style.css" %}">
 	<!-- Load icon library -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+		integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 	{% block chart_loader_header %}{% endblock %}
 </head>
 
 <body>
 	<div class="container">
-		<div class="row align-items-start">
-			<div style="margin-top:12px;">
-				<a href="/" class="iconLogo"><img border="0" src="{% static "images/icons/logo_80x80.png" %}" width="45"
-						height="45" /></a>
-			</div>
-			<div class="col" style="margin-top:16px;">
-				<h2><a href="/" style="color:black">GrinExplorer</a></h2>
-			</div>
-			<div class="col text-right">
-				<form class="search" method="get" action="/search" style="margin-top:12px;">
-					<input class="form-control" type="text" name="q"
-						placeholder="Search by block hash, height or output" style="text-align: center;" size="66">
-					<button type="submit"><i class="fa fa-search"></i></button>
-				</form>
-			</div>
-		</div>
+		<nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+			<a class="navbar-brand" href="/">
+				<img width="45" height="45" src="{% static "images/icons/logo_80x80.png" %}"
+					alt="Start Bootstrap Logo" />
+			</a>
+			<a class="text-dark mt-2" href="/">
+				<h2>GrinExplorer</h2>
+			</a>
+			<form class="col-md-4 ml-auto" method="get" action="/search">
+				<div class="input-group">
+					<input class="form-control py-2" type="search" name="q"
+						placeholder="Search by block hash, height or output">
+					<span class="input-group-append">
+						<button class="btn btn-outline-primary" type="button">
+							<i class="fa fa-search"></i>
+						</button>
+					</span>
+				</div>
+			</form>
+		</nav>
 
 		{% block content %}{% endblock %}
 	</div>
@@ -53,6 +58,7 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
 	</script>
+	<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
 </body>
 
 </html>
