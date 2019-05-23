@@ -8,39 +8,49 @@
 <br>
 <br>
 
-<div class="block_detail_header, row">
-	<img border="0" src="{% static "images/icons/cube_32x32.png" %}" width="20" height="20" />
-	<h4>&nbsp Output {{ output.commit }}</h4>
+<div class="row">
+	<div class="col">
+		<h4><i class="fas fa-sign-out-alt"></i>
+			&nbsp Output {{ output.commit|slice:"10" }}...</h4>
+	</div>
 </div>
 
-<table class="table table-horizontal-bordered table-hover">
-	<tr>
-		<td>Output Type</td>
-		<td>{{ output.output_type }}</td>
-	</tr>
-	<tr>
-		<td>Commit</td>
-		<td>{{ output.commit }}</td>
-	</tr>
-	<tr>
-		<td>Occurrences</td>
-		<td>{{ output.occurrences }}</td>
-	</tr>
-	<tr>
-		<td>Block Height</td>
-		<td><a href="/block/{{ output.block_height }}" title="{{ output.block_height }}">{{ output.block_height }}</a>
-		</td>
-	</tr>
-	<tr>
-		<td>Spent</td>
-		<td>{{ output.spent }}</td>
-	</tr>
-	{% if output.spent %}
-	<tr>
-		<td>Spent at Height</td>
-		<td><a href="/block/{{ output.spent_at }}" title="{{ output.spent_at }}">{{ output.spent_at }}</a></td>
-	</tr>
-	{% endif %}
-</table>
+<div class="row">
+	<div class="col">
+		<div class="table-responsive">
+			<table class="table table-horizontal-bordered table-hover">
+				<tr>
+					<td>Output Type</td>
+					<td>{{ output.output_type }}</td>
+				</tr>
+				<tr>
+					<td>Commit</td>
+					<td>{{ output.commit }}</td>
+				</tr>
+				<tr>
+					<td>Occurrences</td>
+					<td>{{ output.occurrences }}</td>
+				</tr>
+				<tr>
+					<td>Block Height</td>
+					<td><a href="/block/{{ output.block_height }}"
+							title="{{ output.block_height }}">{{ output.block_height }}</a>
+					</td>
+				</tr>
+				<tr>
+					<td>Spent</td>
+					<td>{{ output.spent }}</td>
+				</tr>
+				{% if output.spent %}
+				<tr>
+					<td>Spent at Height</td>
+					<td><a href="/block/{{ output.spent_at }}" title="{{ output.spent_at }}">{{ output.spent_at }}</a>
+					</td>
+				</tr>
+				{% endif %}
+			</table>
+		</div>
+	</div>
+</div>
 
 {% endblock content %}
