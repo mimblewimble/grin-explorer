@@ -8,144 +8,169 @@
 <br>
 <br>
 
-<div class="block_detail_header, row">
-	<img border="0" src="{% static "images/icons/cube_32x32.png" %}" width="20" height="20" />
-	<h4>&nbsp Block {{ blk.height | intcomma }}</h4>
+<div class="row">
+	<div class="col">
+		<h4><i class="fas fa-cube"></i>
+			&nbsp Block {{ blk.height | intcomma }}</h4>
+	</div>
 </div>
 
-<table class="table table-horizontal-bordered table-hover">
-	<tr>
-		<td>Hash</td>
-		<td>{{ blk.hash }}</td>
-	</tr>
-	<tr>
-		<td>Version</td>
-		<td>{{ blk.version }}</td>
-	</tr>
-	<tr>
-		<td>Previous Block</td>
-		<td>
-			{% if blk.height == 0 %}
-			<em>(None, this is the Genesis Block)</em>
-			{% else %}
-			<a href="/block/{{ blk.previous.hash }}" title="{{ blk.previous.hash }}">{{ blk.previous.hash }}</a>
-			{% endif %}
-		</td>
-	</tr>
-	<tr>
-		<td>Age</td>
-		<td>{{ blk.timestamp | date:"Y-m-d, H:i:s" }} UTC</td>
-	</tr>
-	<tr>
-		<td>PoW Algorithm</td>
-		<td>
-			{% if blk.edge_bits == 29 %}
-			cuckARoo29
-			{% elif blk.edge_bits == 31 %}
-			cuckAToo31
-			{% endif %}
-		</td>
-	</tr>
-	<tr>
-		<td>Secondary Scale</td>
-		<td>{{ blk.secondary_scaling | intcomma }}</td>
-	</tr>
-	<tr>
-		<td>Solution Difficulty</td>
-		<td>{{ blk.difficulty | floatformat:-2 | intcomma }}</td>
-	</tr>
-	<tr>
-		<td>Target Difficulty</td>
-		<td>{{ blk.target_difficulty | floatformat:-2 | intcomma }}</td>
-	</tr>
-	<tr>
-		<td>Total Difficulty</td>
-		<td>{{ blk.total_difficulty | intcomma }}</td>
-	</tr>
-	<tr>
-		<td>Total Kernel Offset</td>
-		<td>{{ blk.total_kernel_offset }}</td>
-	</tr>
-	<tr>
-		<td>Nonce</td>
-		<td>{{ blk.nonce }}</td>
-	</tr>
-	<tr>
-		<td>Block Reward</td>
-		<td>{{ blk.reward | grin }}</td>
-	</tr>
-	<tr>
-		<td>Fees</td>
-		<td>{{ blk.fees | nanogrin }}</td>
-	</tr>
-</table>
+<div class="row">
+	<div class="col">
+		<div class="table-responsive">
+			<table class="table table-horizontal-bordered table-hover">
+				<tr>
+					<td>Hash</td>
+					<td>{{ blk.hash }}</td>
+				</tr>
+				<tr>
+					<td>Version</td>
+					<td>{{ blk.version }}</td>
+				</tr>
+				<tr>
+					<td>Previous Block</td>
+					<td>
+						{% if blk.height == 0 %}
+						<em>(None, this is the Genesis Block)</em>
+						{% else %}
+						<a href="/block/{{ blk.previous.hash }}"
+							title="{{ blk.previous.hash }}">{{ blk.previous.hash }}</a>
+						{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<td>Age</td>
+					<td>{{ blk.timestamp | date:"Y-m-d, H:i:s" }} UTC</td>
+				</tr>
+				<tr>
+					<td>PoW Algorithm</td>
+					<td>
+						{% if blk.edge_bits == 29 %}
+						cuckARoo29
+						{% elif blk.edge_bits == 31 %}
+						cuckAToo31
+						{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<td>Secondary Scale</td>
+					<td>{{ blk.secondary_scaling | intcomma }}</td>
+				</tr>
+				<tr>
+					<td>Solution Difficulty</td>
+					<td>{{ blk.difficulty | floatformat:-2 | intcomma }}</td>
+				</tr>
+				<tr>
+					<td>Target Difficulty</td>
+					<td>{{ blk.target_difficulty | floatformat:-2 | intcomma }}</td>
+				</tr>
+				<tr>
+					<td>Total Difficulty</td>
+					<td>{{ blk.total_difficulty | intcomma }}</td>
+				</tr>
+				<tr>
+					<td>Total Kernel Offset</td>
+					<td>{{ blk.total_kernel_offset }}</td>
+				</tr>
+				<tr>
+					<td>Nonce</td>
+					<td>{{ blk.nonce }}</td>
+				</tr>
+				<tr>
+					<td>Block Reward</td>
+					<td>{{ blk.reward | grin }}</td>
+				</tr>
+				<tr>
+					<td>Fees</td>
+					<td>{{ blk.fees | nanogrin }}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
 
-<details class="black">
-	<summary>Inputs ({{ blk.input_set.all.count }})</summary>
-
-	<table class="table table-horizontal-bordered table-hover">
-		<thead class="thead-light">
-			<tr>
-				<th>Commit</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for input in blk.input_set.all %}
-			<tr>
-				<td style="font-family:monospace;"><a href="/output/{{ input.data }}"
-						title="{{ input.data }}">{{ input.data }}</a></td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</details>
-
-<br>
-
-<details class="black">
-	<summary>Outputs ({{ blk.output_set.all.count }})</summary>
-
-	<table class="table table-horizontal-bordered table-hover">
-		<thead class="thead-light">
-			<tr>
-				<th>Output Type</th>
-				<th>Commit</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for output in blk.output_set.all %}
-			<tr>
-				<td>{{ output.output_type }}</td>
-				<td><a href="/output/{{ output.commit }}" title="{{ output.commit }}">{{ output.commit }}</a></td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</details>
+<div class="row">
+	<div class="col">
+		<details class="black">
+			<summary>Inputs ({{ blk.input_set.all.count }})</summary>
+			<div class="table-responsive">
+				<table class="table table-horizontal-bordered table-hover">
+					<thead class="thead-light">
+						<tr>
+							<th>Commit</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for input in blk.input_set.all %}
+						<tr>
+							<td style="font-family:monospace;"><a href="/output/{{ input.data }}"
+									title="{{ input.data }}">{{ input.data }}</a></td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</details>
+	</div>
+</div>
 
 <br>
 
-<details class="black">
-	<summary>Kernels ({{ blk.kernel_set.all.count }})</summary>
+<div class="row">
+	<div class="col">
+		<details class="black">
+			<summary>Outputs ({{ blk.output_set.all.count }})</summary>
+			<div class="table-responsive">
+				<table class="table table-horizontal-bordered table-hover">
+					<thead class="thead-light">
+						<tr>
+							<th>Output Type</th>
+							<th>Commit</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for output in blk.output_set.all %}
+						<tr>
+							<td>{{ output.output_type }}</td>
+							<td><a href="/output/{{ output.commit }}"
+									title="{{ output.commit }}">{{ output.commit }}</a>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</details>
+	</div>
+</div>
 
-	<table class="table table-horizontal-bordered table-hover">
-		<thead class="thead-light">
-			<tr>
-				<th>Features</th>
-				<th>Fee</th>
-				<th>Lock Height</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for kernel in blk.kernel_set.all %}
-			<tr>
-				<td>{{ kernel.features }}</td>
-				<td>{{ kernel.fee | nanogrin }}</td>
-				<td>{{ kernel.lock_height }}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</details>
+<br>
+<div class="row">
+	<div class="col">
+		<details class="black">
+			<summary>Kernels ({{ blk.kernel_set.all.count }})</summary>
+			<div class="table-responsive">
+				<table class="table table-horizontal-bordered table-hover">
+					<thead class="thead-light">
+						<tr>
+							<th>Features</th>
+							<th>Fee</th>
+							<th>Lock Height</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for kernel in blk.kernel_set.all %}
+						<tr>
+							<td>{{ kernel.features }}</td>
+							<td>{{ kernel.fee | nanogrin }}</td>
+							<td>{{ kernel.lock_height }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</details>
+	</div>
+</div>
 
 {% endblock content %}
