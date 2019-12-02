@@ -66,9 +66,9 @@ class Block(models.Model):
 
     edge_bits = models.IntegerField()
 
-    cuckoo_solution = ArrayField(models.IntegerField())
+    cuckoo_solution = ArrayField(models.BigIntegerField())
 
-    difficulty = models.IntegerField()
+    difficulty = models.BigIntegerField()
 
     # sum of the target difficulties, not the sum of the actual block difficulties
     total_difficulty = models.BigIntegerField()
