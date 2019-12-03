@@ -160,11 +160,9 @@
 						<td class="numeric">{{ blk.target_difficulty | intcomma }}</td>
 						<td>
 							{% if blk.edge_bits == 29 %}
-							cuckARoo29
-							{% elif blk.edge_bits == 31 %}
-							cuckAToo31
-							{% elif blk.edge_bits == 32 %}
-							cuckAToo32
+							  <span title="cuckARoo-29">AR-29</span>
+							{% else %}
+							  <span title="cuckAToo-{{ blk.edge_bits }}">AT-{{ blk.edge_bits }}</span>
 							{% endif %}
 						</td>
 						<td class="numeric" align="left">{{ blk.kernel_set.all.count }}</td>
