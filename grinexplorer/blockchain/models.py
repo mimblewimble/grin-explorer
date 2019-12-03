@@ -99,7 +99,7 @@ class Block(models.Model):
 
     @property
     def fees(self):
-        return sum(self.kernel_set.all().values_list("fee", flat=True))
+        return sum([x.fee for x in self.kernel_set.all()])
 
 
 class Input(models.Model):

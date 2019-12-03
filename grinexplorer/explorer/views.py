@@ -11,7 +11,9 @@ class BlockList(ListView):
     template_name = "explorer/block_list.html"
     context_object_name = "block_list"
 
-    queryset = Block.objects.order_by("-timestamp")
+    queryset = Block.objects.order_by("-timestamp") \
+                            .select_related("previous") \
+                            .prefetch_related("output_set", "kernel_set", "input_set")
     paginate_by = 20
 
     def get_block_chart(self):
@@ -192,6 +194,8 @@ class BlockDetail(DetailView):
 
     template_name = "explorer/block_detail.html"
     context_object_name = "blk"
+    queryset = Block.objects.select_related("previous") \
+                            .prefetch_related("output_set", "kernel_set", "input_set")
 
 
 class OutputByCommit(TemplateView):
