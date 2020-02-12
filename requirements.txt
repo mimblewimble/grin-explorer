@@ -1,4 +1,4 @@
-Django==2.1.11
+Django==2.2.10
 psycopg2==2.7.3.2
 requests==2.20.0
 django_chartit==0.2.9
