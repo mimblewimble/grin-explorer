@@ -24,7 +24,7 @@ class BlockList(ListView):
                     'source': Block.objects.raw("select 1 as hash, to_char(timestamp,'MM-dd') as niceday, "
                                                 "max(total_difficulty) as total_difficulty, "
                                                 "date(DATE_TRUNC('day', timestamp)) as date, count(hash) as num "
-                                                "from blockchain_block "
+                                                "from blockchain_block where timestamp > current_date - interval '30 day'"
                                                 "group by DATE_TRUNC('day', timestamp),niceday order by date")
                 },
                 'terms': [
@@ -123,7 +123,7 @@ class BlockList(ListView):
                     'source': Block.objects.raw("select 1 as hash, to_char(timestamp,'MM-dd') as niceday, "
                                                 "date(DATE_TRUNC('day', timestamp)) as date, sum(fee)/1000000 as fee "
                                                 "from blockchain_block t1 join blockchain_kernel t2 "
-                                                "on t2.block_id=t1.hash "
+                                                "on t2.block_id=t1.hash where timestamp > current_date - interval '30 day' "
                                                 "group by DATE_TRUNC('day', timestamp),niceday order by date")
                 },
                 'terms': [
