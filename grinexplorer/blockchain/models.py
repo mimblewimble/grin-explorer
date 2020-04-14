@@ -54,7 +54,9 @@ class Block(models.Model):
 
     prev_root = models.CharField(max_length=64)
 
-    timestamp = models.DateTimeField()
+    timestamp = models.DateTimeField(
+        db_index=True,
+    )
 
     output_root = models.CharField(max_length=64)
 
