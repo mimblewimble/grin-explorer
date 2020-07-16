@@ -1,6 +1,6 @@
 * Grin-Explorer
 
-Grin-Explorer is the first block explorer for the [[https://grin-tech.org][Grin]]
+Grin-Explorer is the first block explorer for the [[https://grin.mw][Grin]]
 blockchain. This is the source code for the instance running at 
 [[https://grinexplorer.net]].
 
