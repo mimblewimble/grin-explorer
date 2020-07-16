@@ -72,6 +72,18 @@
 					<td>Total Kernel Offset</td>
 					<td>{{ blk.total_kernel_offset }}</td>
 				</tr>
+				{% if blk.output_mmr_size %}
+				  <tr>
+					<td>Output MMR Size</td>
+					<td>{{ blk.output_mmr_size }}</td>
+				  </tr>
+				{% endif %}
+				{% if blk.kernel_mmr_size %}
+				  <tr>
+					<td>Kernel MMR Size</td>
+					<td>{{ blk.kernel_mmr_size }}</td>
+				  </tr>
+				{% endif %}
 				<tr>
 					<td>Nonce</td>
 					<td>{{ blk.nonce }}</td>
