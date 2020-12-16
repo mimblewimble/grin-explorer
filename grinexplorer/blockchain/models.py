@@ -172,6 +172,8 @@ class Kernel(models.Model):
 
     fee = models.IntegerField()
 
+    fee_shift = models.IntegerField()
+
     lock_height = models.IntegerField()
 
     excess = models.CharField(max_length=66)
