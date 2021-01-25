@@ -16,6 +16,17 @@ class Status(Enum):
 class Command(BaseCommand):
     help = "Import the Blockchain starting from the current tip"
 
+    def rpc(self, method, **params):
+        resp = requests.post(
+            self.API_BASE,
+            json={
+                "id": "json",
+                "method": method,
+                "params": params,
+            })
+
+        return resp.json()["result"]["Ok"]
+
     def add_arguments(self, parser):
         parser.add_argument("url", type=str)
         parser.add_argument(
@@ -26,15 +37,12 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        self.API_BASE = "%s/v1/" % options["url"]
-
-        resp = requests.get(self.API_BASE + "chain")
+        self.API_BASE = "%s/v2/foreign" % options["url"]
 
         try:
-            data = resp.json()
+            data = self.rpc("get_tip")
         except json.decoder.JSONDecodeError:
-            print(
-                "Decoding JSON failed (make sure to disable api_secret_path in grin-server.toml")
+            print("Decoding JSON failed (make sure to disable api_secret_path in grin-server.toml")
             print("resp=%r" % resp.text)
             exit()
 
@@ -59,12 +67,10 @@ class Command(BaseCommand):
             parent = block_hash
 
     def fetch_and_store_block(self, hash, parent_hash):
-        resp = requests.get(self.API_BASE + "blocks/" + hash)
         try:
-            block_data = resp.json()
+            block_data = self.rpc("get_block", hash=hash, height=None, commit=None)
         except json.decoder.JSONDecodeError:
-            print(
-                "Decoding JSON failed (make sure to set `archive_mode=true` in grin-server.toml")
+            print("Decoding JSON failed (make sure to set `archive_mode=true` in grin-server.toml")
             print("resp=%r" % resp.text)
             exit()
 
