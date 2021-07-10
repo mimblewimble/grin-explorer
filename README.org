@@ -29,15 +29,19 @@ Python >= 3.5 and PostgreSQL >= 9.3 are required.
 
 Grin is required to run as an archival node and basic auth needs to be disabled
 in its REST API. Set `archive_mode = true` and comment out `api_secret_path` in
-`grin-server.toml` respectively.
+`grin-server.toml` respectively. Sometimes restarting the server will eliminate unknown issue.
 
 *** Installation
+
+Install Python and PosgreSQL:
+#+begin_src sh
+sudo apt install python3.8-venv python3.8-dev libpq-dev postgresql postgresql-contrib
+#+end_src
 
 Start PostgreSQL. Note that the following is just an example to run PostgreSQL,
 you should ensure you use your own user and credentials when setting it up.
 
 #+begin_src sh
-sudo postgresql-setup --initdb
 sudo systemctl start postgresql
 sudo -u postgres -i
 # psql
@@ -68,12 +72,18 @@ export DB_PASSWORD=mypass
 export DB_HOST=127.0.0.1
 export DB_PORT=5432
 python3 ./grinexplorer/manage.py migrate
-python3 ./grinexplorer/manage.py runserver
+python3 ./grinexplorer/manage.py runserver <IP address:port>
 #+end_src
+
+*** You would have issue TemplateDoesNotExist at / base.html 
+Try to copy  ~/grin-explorer/grinexplorer/templates/base.html to  ~/grin-explorer/templates/ and other required directories.
+
+Try to turn on Debug = True in ~/grin-explorer/grinexplorer/grinexplorer/settings.py to troubleshoot yourself in case of issues or the webpage not display correctly.
 
 *** Import blockchain
-
+The web explorer only update "Latest Block" if you run command below:
 #+begin_src sh
-python3 ./grinexplorer/manage.py import_from_tip http://127.0.0.1:13413
+python3 ./grinexplorer/manage.py import_from_tip http://127.0.0.1:3413
 #+end_src
 
+This is the basic Grin-explorer setup and configuration. In production, normally we will need NGINX or Apache in front of Django to act as a reverse proxy, to redirect Django http://127.0.0.1:8000 to your public domain http(s)://example.com.
